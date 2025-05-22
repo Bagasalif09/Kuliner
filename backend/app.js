@@ -18,7 +18,7 @@ app.use('/api/geprek', geprekRoutes);
 app.use('/api/tempura', tempuraRoutes);
 app.use('/api/sedep', sedepRoutes);
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.send('Kuliner API is running...');
 });
 

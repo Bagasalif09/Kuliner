@@ -1,0 +1,137 @@
+.tenant-menu-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+
+.tenant-banner {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  overflow: hidden;
+}
+
+.banner-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%);
+  color: white;
+}
+
+.banner-overlay h1 {
+  margin: 0 0 5px;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.banner-overlay p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.back-link {
+  display: inline-block;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+}
+
+.menu-container {
+  padding: 20px;
+}
+
+.menu-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 2px solid #ff6b35;
+  padding-bottom: 8px;
+  display: inline-block;
+}
+
+.menu-category {
+  margin-bottom: 30px;
+}
+
+.category-title {
+  background-color: #f5f5f5;
+  border-left: 4px solid #ff6b35;
+  padding: 8px 15px;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #444;
+  border-radius: 0 4px 4px 0;
+}
+
+.menu-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 30px;
+  color: #666;
+}
+
+.error-message, .empty-menu {
+  text-align: center;
+  padding: 30px;
+  color: #666;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.auth-error .error-message {
+  background-color: #fff0f0;
+  border: 1px solid #ffcaca;
+  color: #d32f2f;
+}
+
+.auth-error h3 {
+  color: #d32f2f;
+  margin-bottom: 10px;
+}
+
+.error-hint {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.error-container {
+  max-width: 500px;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.back-button {
+  display: inline-block;
+  background-color: #ff6b35;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.back-button:hover {
+  background-color: #e85a2a;
+  color: white;
+} 

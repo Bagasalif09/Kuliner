@@ -1,0 +1,71 @@
+.tenant-card {
+  display: flex;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tenant-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.tenant-image {
+  width: 120px;
+  min-height: 120px;
+  overflow: hidden;
+}
+
+.tenant-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tenant-info {
+  padding: 15px;
+  flex: 1;
+}
+
+.tenant-info h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.25rem;
+}
+
+.tenant-info p {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.menu-button {
+  display: inline-block;
+  background-color: #ff6b35;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.menu-button:hover {
+  background-color: #e85a2a;
+  text-decoration: none;
+  color: white;
+}
+
+@media (max-width: 576px) {
+  .tenant-card {
+    flex-direction: column;
+  }
+  
+  .tenant-image {
+    width: 100%;
+    height: 150px;
+  }
+} 
