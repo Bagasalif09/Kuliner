@@ -1,6 +1,9 @@
 # MENU DIGITAL 
 
 ## INSTALL DEPENDENSI
+contoh .env di .env.example
+
+## INSTALL DEPENDENSI
 ```
 npm install
 ```
