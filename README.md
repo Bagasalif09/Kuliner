@@ -1,18 +1,30 @@
 # MENU DIGITAL 
 
-## INSTALL DEPENDENSI
 contoh .env di .env.example
 
-## INSTALL DEPENDENSI
+
+## RUN BE
+```
+cd backend
+```
+
 ```
 npm install
 ```
 
-## RUN BE
 ```
 npm run dev
 ```
 
 ## RUN FE
 ```
+cd frontend
+```
+
+```
+npm install
+```
+
+```
 npm start
+```
