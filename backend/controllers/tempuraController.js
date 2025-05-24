@@ -1,4 +1,3 @@
-// backend/controllers/tempuraController.js
 const pool = require('../db');
 
 const tenantId = 3;

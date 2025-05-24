@@ -1,4 +1,3 @@
-// backend/controllers/geprekController.js
 const pool = require('../db');
 
 const tenantId = 2;

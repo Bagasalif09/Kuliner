@@ -1,4 +1,3 @@
-// backend/routes/tempura.js
 const express = require('express');
 const router = express.Router();
 const tempuraController = require('../controllers/tempuraController');

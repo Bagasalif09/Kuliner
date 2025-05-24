@@ -1,4 +1,3 @@
-// backend/controllers/emakController.js
 const pool = require('../db');
 
 const tenantId = 1;

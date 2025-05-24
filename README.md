@@ -1,6 +1,8 @@
 # MENU DIGITAL 
 
-contoh .env di .env.example
+## Import Query pada Kuliner.sql dengan PostgreSQL (pgAdmin)
+
+## contoh .env di .env.example
 
 
 ## RUN BE
@@ -28,3 +30,6 @@ npm install
 ```
 npm start
 ```
+
+## Dashboard Admin : /admin/login
+## Akun Admin cek di sql

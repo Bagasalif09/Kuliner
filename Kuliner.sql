@@ -14,6 +14,15 @@ CREATE TABLE menus (
     category VARCHAR(50)
 );
 
+-- Buat tabel users untuk admin
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL DEFAULT 'admin',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Insert data tenant
 INSERT INTO tenants (name) VALUES
 ('Emak'),
@@ -58,3 +67,8 @@ INSERT INTO menus (tenant_id, name, price, category) VALUES
 (4, 'Mie Jumbo + Telur', 10000, 'paket'),
 (4, 'Mie Jumbo + Es Teh', 10000, 'paket'),
 (4, 'Mie Telur + Es Teh', 10000, 'paket');
+
+-- Insert akun admin default
+-- Password: admin123 (nanti akan di-hash dalam implementasi)
+INSERT INTO users (username, password, role) VALUES
+('admin', 'admin123', 'admin');
