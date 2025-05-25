@@ -1,7 +1,9 @@
 -- Buat tabel tenants
 CREATE TABLE tenants (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    banner_path VARCHAR(255)
 );
 
 -- Buat tabel menus
@@ -11,7 +13,8 @@ CREATE TABLE menus (
     name VARCHAR(100) NOT NULL,
     price INTEGER NOT NULL,
     description TEXT,
-    category VARCHAR(50)
+    category VARCHAR(50),
+    image_path VARCHAR(255)
 );
 
 -- Buat tabel users untuk admin

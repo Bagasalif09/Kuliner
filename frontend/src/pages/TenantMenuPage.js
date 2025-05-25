@@ -1,95 +1,78 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import MenuItem from '../components/MenuItem';
-import { getEmakMenu, getGeprekMenu, getTempuraMenu, getSedepMenu } from '../services/api';
+import { getTenantById, getTenantMenu } from '../services/api';
 import './TenantMenuPage.css';
 
 const TenantMenuPage = () => {
   const { id } = useParams();
+  const [tenant, setTenant] = useState(null);
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [authError, setAuthError] = useState(false);
 
-  const tenantInfo = {
-    emak: {
-      name: 'Emak Food',
-      description: 'Masakan rumahan khas Indonesia dengan cita rasa otentik.',
-      banner: 'https://images.pexels.com/photos/2347311/pexels-photo-2347311.jpeg?auto=compress&cs=tinysrgb&w=300'
-    },
-    geprek: {
-      name: 'Geprek Crispy',
-      description: 'Ayam geprek super crispy dengan berbagai level kepedasan.',
-      banner: 'https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=300'
-    },
-    tempura: {
-      name: 'Tempura House',
-      description: 'Tempura dan makanan Jepang yang renyah dan segar.',
-      banner: 'https://images.pexels.com/photos/884596/pexels-photo-884596.jpeg?auto=compress&cs=tinysrgb&w=300'
-    },
-    sedep: {
-      name: 'Sedep Rasa',
-      description: 'Aneka hidangan dengan rasa sedap yang menggugah selera.',
-      banner: 'https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=300'
-    }
-  };
-
   useEffect(() => {
-    const fetchMenuItems = async () => {
+    const fetchData = async () => {
       setLoading(true);
       setAuthError(false);
       
       try {
-        let data = [];
+        // Ambil data tenant
+        const tenantData = await getTenantById(id);
+        setTenant(tenantData);
         
-        switch(id) {
-          case 'emak':
-            data = await getEmakMenu();
-            break;
-          case 'geprek':
-            data = await getGeprekMenu();
-            break;
-          case 'tempura':
-            data = await getTempuraMenu();
-            break;
-          case 'sedep':
-            data = await getSedepMenu();
-            break;
-          default:
-            setError('Tenant tidak ditemukan');
-        }
-        
-        setMenuItems(data);
+        // Ambil menu tenant
+        const menuData = await getTenantMenu(id);
+        setMenuItems(menuData);
+        setError(null);
       } catch (error) {
-        console.error('Error fetching menu items:', error);
+        console.error('Error fetching data:', error);
         
         if (error.response && error.response.status === 403) {
           setAuthError(true);
           setError('Akses ditolak. API key tidak valid atau tidak tersedia.');
+        } else if (error.response && error.response.status === 404) {
+          setError('Tenant tidak ditemukan');
         } else {
-          setError('Gagal memuat menu. Silakan coba lagi nanti.');
+          setError('Gagal memuat data. Silakan coba lagi nanti.');
         }
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMenuItems();
+    fetchData();
   }, [id]);
 
   const groupMenuByCategory = () => {
-    const foodItems = menuItems.filter(item => item.category.toLowerCase() === 'makanan');
-    const drinkItems = menuItems.filter(item => item.category.toLowerCase() === 'minuman');
-    const paketitems = menuItems.filter(item => item.category.toLowerCase() === 'paket');
+    const foodItems = menuItems.filter(item => item.category && item.category.toLowerCase() === 'makanan');
+    const drinkItems = menuItems.filter(item => item.category && item.category.toLowerCase() === 'minuman');
+    const paketItems = menuItems.filter(item => item.category && item.category.toLowerCase() === 'paket');
     
     return {
       makanan: foodItems,
       minuman: drinkItems,
-      paket: paketitems
+      paket: paketItems
     };
   };
 
-  if (!tenantInfo[id]) {
+  if (loading) {
+    return (
+      <div className="loading-spinner">Memuat menu...</div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <div className="error-message">{error}</div>
+        <Link to="/" className="back-button">Kembali ke Beranda</Link>
+      </div>
+    );
+  }
+
+  if (!tenant) {
     return (
       <div className="error-container">
         <div className="error-message">Tenant tidak ditemukan</div>
@@ -99,10 +82,6 @@ const TenantMenuPage = () => {
   }
 
   const renderMenuContent = () => {
-    if (loading) {
-      return <div className="loading-spinner">Memuat menu...</div>;
-    }
-    
     if (authError) {
       return (
         <div className="auth-error">
@@ -113,10 +92,6 @@ const TenantMenuPage = () => {
           </div>
         </div>
       );
-    }
-    
-    if (error) {
-      return <div className="error-message">{error}</div>;
     }
     
     if (menuItems.length === 0) {
@@ -137,6 +112,7 @@ const TenantMenuPage = () => {
                   name={item.name}
                   price={item.price}
                   category={item.category}
+                  imageUrl={item.image_url}
                 />
               ))}
             </div>
@@ -153,6 +129,7 @@ const TenantMenuPage = () => {
                   name={item.name}
                   price={item.price}
                   category={item.category}
+                  imageUrl={item.image_url}
                 />
               ))}
             </div>
@@ -169,6 +146,7 @@ const TenantMenuPage = () => {
                   name={item.name}
                   price={item.price}
                   category={item.category}
+                  imageUrl={item.image_url}
                 />
               ))}
             </div>
@@ -182,14 +160,14 @@ const TenantMenuPage = () => {
     <div className="tenant-menu-page">
       <div 
         className="tenant-banner"
-        style={{ backgroundImage: `url(${tenantInfo[id]?.banner})` }}
+        style={{ backgroundImage: tenant.banner_url ? `url(${tenant.banner_url})` : 'linear-gradient(to right, #ff9966, #ff5e62)' }}
       >
         <div className="banner-overlay">
           <Link to="/" className="back-link">
             &larr; Kembali
           </Link>
-          <h1>{tenantInfo[id]?.name}</h1>
-          <p>{tenantInfo[id]?.description}</p>
+          <h1>{tenant.name}</h1>
+          <p>{tenant.description || 'Menu dari ' + tenant.name}</p>
         </div>
       </div>
 

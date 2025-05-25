@@ -15,6 +15,8 @@ const MenuFormPage = () => {
   const [tenants, setTenants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  
   const kategori = [
     { value: 'makanan', label: 'Makanan' },
     { value: 'minuman', label: 'Minuman' },
@@ -31,6 +33,10 @@ const MenuFormPage = () => {
         if (isEditMode) {
           const menuData = await getMenuById(id);
           setMenu(menuData);
+          
+          if (menuData.image_url) {
+            setImagePreview(menuData.image_url);
+          }
         }
       } catch (err) {
         setError(isEditMode 
@@ -51,6 +57,7 @@ const MenuFormPage = () => {
     price: menu?.price || '',
     description: menu?.description || '',
     category: menu?.category || '',
+    image: null
   };
 
   const validationSchema = Yup.object({
@@ -65,7 +72,27 @@ const MenuFormPage = () => {
     description: Yup.string(),
     category: Yup.string()
       .required('Kategori wajib dipilih'),
+    image: Yup.mixed()
+      .nullable()
+      .test('fileSize', 'Ukuran gambar maksimal 2MB', 
+        value => !value || (value && value.size <= 2 * 1024 * 1024))
+      .test('fileType', 'Format file harus jpeg, jpg, png, atau webp', 
+        value => !value || (value && ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'].includes(value.type)))
   });
+
+  const handleImageChange = (event, setFieldValue) => {
+    const file = event.currentTarget.files[0];
+    
+    if (file) {
+      setFieldValue('image', file);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -117,8 +144,8 @@ const MenuFormPage = () => {
           onSubmit={handleSubmit}
           enableReinitialize
         >
-          {({ isSubmitting, values }) => (
-            <Form className="menu-form">
+          {({ isSubmitting, values, setFieldValue }) => (
+            <Form className="menu-form" encType="multipart/form-data">
               <div className="form-group">
                 <label htmlFor="tenant_id">Tenant</label>
                 <Field as="select" name="tenant_id" id="tenant_id">
@@ -161,6 +188,31 @@ const MenuFormPage = () => {
                 <label htmlFor="description">Deskripsi</label>
                 <Field as="textarea" name="description" id="description" rows="4" />
                 <ErrorMessage name="description" component="div" className="error-text" />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="image">Gambar Menu</label>
+                <input
+                  id="image"
+                  name="image"
+                  type="file"
+                  accept="image/jpeg, image/png, image/webp, image/jpg"
+                  onChange={(event) => handleImageChange(event, setFieldValue)}
+                  className="image-input"
+                />
+                <ErrorMessage name="image" component="div" className="error-text" />
+                
+                {imagePreview && (
+                  <div className="image-preview-container">
+                    <img src={imagePreview} alt="Preview" className="image-preview" />
+                  </div>
+                )}
+                
+                <div className="image-help-text">
+                  Format: JPG, PNG, WEBP. Ukuran maks: 2MB
+                  <br />
+                  Rekomendasi ukuran: 500 x 500 pixel (rasio 1:1) untuk tampilan optimal
+                </div>
               </div>
               
               <div className="form-actions">
