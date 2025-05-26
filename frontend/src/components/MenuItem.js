@@ -2,15 +2,10 @@ import React from 'react';
 import './MenuItem.css';
 import { useNavigate } from 'react-router-dom';
 
-<<<<<<< HEAD
 const MenuItem = ({ name, price, category, image_url, description }) => {
-  const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || '';
-  
-=======
-const MenuItem = ({ name, price, category }) => {
   const navigate = useNavigate();
-
->>>>>>> 9c8687e2 (ya allah)
+  const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '');
+  
   const formatPrice = (price) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -26,8 +21,7 @@ const MenuItem = ({ name, price, category }) => {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="menu-item">
+    <div className="menu-item" onClick={handleClick} style={{ cursor: 'pointer' }}>
       {image_url && (
         <div className="menu-item-image">
           <img 
@@ -44,13 +38,6 @@ const MenuItem = ({ name, price, category }) => {
           <span className="menu-item-price">{formatPrice(price)}</span>
           <span className="menu-item-category">{category}</span>
         </div>
-=======
-    <div className="menu-item" onClick={handleClick} style={{ cursor: 'pointer' }}>
-      <div className="menu-item-info">
-        <h4 className="menu-item-name">{name}</h4>
-        <div className="menu-item-category">{category}</div>
-        <div className="menu-item-price">{formatPrice(price)}</div>
->>>>>>> 9c8687e2 (ya allah)
       </div>
     </div>
   );

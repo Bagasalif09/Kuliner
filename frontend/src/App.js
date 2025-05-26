@@ -18,31 +18,6 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
-<<<<<<< HEAD
-      <Router>
-        <Routes>
-          {/* Halaman utama pengguna umum */}
-          <Route path="/" element={<HomePage />} />
-
-          {/* Halaman menu tenant untuk pengunjung */}
-          <Route path="/tenant/:id" element={<TenantMenuPage />} />
-
-            {/* Halaman admin */}
-            <Route path="/admin/login" element={<AdminLoginPage />} />
-            
-            {/* Protected admin routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-              <Route path="/admin/menus" element={<AdminMenusPage />} />
-              <Route path="/admin/menus/add" element={<MenuFormPage />} />
-              <Route path="/admin/menus/edit/:id" element={<MenuFormPage />} />
-              <Route path="/admin/tenants" element={<AdminTenantsPage />} />
-              <Route path="/admin/tenants/edit/:id" element={<TenantFormPage />} />
-              <Route path="/admin/change-password" element={<ChangePasswordPage />} />
-            </Route>
-        </Routes>
-      </Router>
-=======
         <Router>
          <Routes>
   {/* Halaman utama pengguna umum */}
@@ -59,12 +34,13 @@ function App() {
     <Route path="/admin/menus" element={<AdminMenusPage />} />
     <Route path="/admin/menus/add" element={<MenuFormPage />} />
     <Route path="/admin/menus/edit/:id" element={<MenuFormPage />} />
+    <Route path="/admin/tenants" element={<AdminTenantsPage />} />
+    <Route path="/admin/tenants/edit/:id" element={<TenantFormPage />} />
     <Route path="/admin/change-password" element={<ChangePasswordPage />} />
   </Route>
 </Routes>
 
         </Router>
->>>>>>> 9c8687e2 (ya allah)
       </AuthProvider>
     </div>
   );
