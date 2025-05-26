@@ -9,8 +9,6 @@ import MenuFormPage from './pages/admin/MenuFormPage';
 import ChangePasswordPage from './pages/admin/ChangePasswordPage';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
-import AdminTenantsPage from './pages/admin/AdminTenantsPage';
-import TenantFormPage from './pages/admin/TenantFormPage';
 import './App.css';
 
 function App() {
@@ -35,9 +33,6 @@ function App() {
               <Route path="/admin/menus/add" element={<MenuFormPage />} />
               <Route path="/admin/menus/edit/:id" element={<MenuFormPage />} />
               <Route path="/admin/change-password" element={<ChangePasswordPage />} />
-              <Route path="/admin/tenants" element={<AdminTenantsPage />} />
-              <Route path="/admin/tenants/add" element={<TenantFormPage />} />
-              <Route path="/admin/tenants/edit/:id" element={<TenantFormPage />} />
             </Route>
           </Routes>
         </Router>

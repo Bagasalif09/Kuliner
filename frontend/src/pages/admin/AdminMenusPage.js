@@ -12,7 +12,7 @@ const AdminMenusPage = () => {
   const [filterTenant, setFilterTenant] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const kategori = [
+  const KATEGORI_OPTIONS = [
     { value: 'makanan', label: 'Makanan' },
     { value: 'minuman', label: 'Minuman' },
     { value: 'paket', label: 'Paket' }
@@ -126,7 +126,7 @@ const AdminMenusPage = () => {
               onChange={(e) => setFilterCategory(e.target.value)}
             >
               <option value="">Semua Kategori</option>
-              {kategori.map(option => (
+              {KATEGORI_OPTIONS.map(option => (
                 <option key={option.value} value={option.value}>{option.label}</option>
               ))}
             </select>
@@ -142,7 +142,6 @@ const AdminMenusPage = () => {
             <table className="menu-table">
               <thead>
                 <tr>
-                  <th>Gambar</th>
                   <th>Nama Menu</th>
                   <th>Tenant</th>
                   <th>Kategori</th>
@@ -153,21 +152,10 @@ const AdminMenusPage = () => {
               <tbody>
                 {filteredMenus.map(menu => (
                   <tr key={menu.id}>
-                    <td className="menu-image-cell">
-                      {menu.image_url ? (
-                        <img 
-                          src={menu.image_url} 
-                          alt={menu.name} 
-                          className="menu-thumbnail" 
-                        />
-                      ) : (
-                        <div className="no-image">Tidak ada gambar</div>
-                      )}
-                    </td>
                     <td>{menu.name}</td>
                     <td>{getTenantName(menu.tenant_id)}</td>
                     <td>{menu.category ? 
-                      kategori.find(opt => opt.value === menu.category.toLowerCase())?.label || 
+                      KATEGORI_OPTIONS.find(opt => opt.value === menu.category.toLowerCase())?.label || 
                       menu.category : '-'}
                     </td>
                     <td>Rp {menu.price.toLocaleString()}</td>

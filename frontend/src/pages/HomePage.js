@@ -1,44 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import TenantCard from '../components/TenantCard';
-import { getAllTenants, checkApiKeyValid } from '../services/api';
+import { checkApiKeyValid } from '../services/api';
 import './HomePage.css';
 
 const HomePage = () => {
-  const [tenants, setTenants] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [apiKeyValid, setApiKeyValid] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      
-      try {
-        // Verifikasi API key
-        const isValid = await checkApiKeyValid();
-        setApiKeyValid(isValid);
-        
-        // Ambil data tenant
-        const tenantData = await getAllTenants();
-        setTenants(tenantData);
-      } catch (err) {
-        console.error('Error fetching data:', err);
-        setError('Gagal memuat data. Silakan coba lagi nanti.');
-      } finally {
-        setLoading(false);
-      }
+    const checkApiKey = async () => {
+      const isValid = await checkApiKeyValid();
+      setApiKeyValid(isValid);
     };
 
-    fetchData();
+    checkApiKey();
   }, []);
 
-  if (loading) {
-    return <div className="loading">Memuat data...</div>;
-  }
-
-  if (error) {
-    return <div className="error">{error}</div>;
-  }
+  const tenants = [
+    {
+      id: 'emak',
+      name: 'Emak Food',
+      description: 'Masakan rumahan khas Indonesia dengan cita rasa otentik.',
+      imageUrl: 'https://images.pexels.com/photos/2347311/pexels-photo-2347311.jpeg?auto=compress&cs=tinysrgb&w=300'
+    },
+    {
+      id: 'geprek',
+      name: 'Geprek Crispy',
+      description: 'Ayam geprek super crispy dengan berbagai level kepedasan.',
+      imageUrl: 'https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=300'
+    },
+    {
+      id: 'tempura',
+      name: 'Tempura House',
+      description: 'Tempura dan makanan Jepang yang renyah dan segar.',
+      imageUrl: 'https://images.pexels.com/photos/884596/pexels-photo-884596.jpeg?auto=compress&cs=tinysrgb&w=300'
+    },
+    {
+      id: 'sedep',
+      name: 'Sedep Rasa',
+      description: 'Aneka hidangan dengan rasa sedap yang menggugah selera.',
+      imageUrl: 'https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=300'
+    }
+  ];
 
   return (
     <div className="home-page">
@@ -62,8 +64,8 @@ const HomePage = () => {
             key={tenant.id}
             id={tenant.id}
             name={tenant.name}
-            description={tenant.description || ''}
-            imageUrl={tenant.banner_url || ''}
+            description={tenant.description}
+            imageUrl={tenant.imageUrl}
           />
         ))}
       </div>

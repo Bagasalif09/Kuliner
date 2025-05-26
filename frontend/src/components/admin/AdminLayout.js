@@ -30,9 +30,6 @@ const AdminLayout = ({ children }) => {
                 <Link to="/admin/dashboard">Dashboard</Link>
               </li>
               <li>
-                <Link to="/admin/tenants">Kelola Tenant</Link>
-              </li>
-              <li>
                 <Link to="/admin/menus">Kelola Menu</Link>
               </li>
               <li>
