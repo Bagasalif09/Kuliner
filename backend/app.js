@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
+console.log('API_KEY from env:', process.env.API_KEY);
+
 const emakRoutes = require('./routes/emak');
 const geprekRoutes = require('./routes/geprek');
 const tempuraRoutes = require('./routes/tempura');
