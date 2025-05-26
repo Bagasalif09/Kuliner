@@ -1,7 +1,9 @@
 -- Buat tabel tenants
 CREATE TABLE tenants (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL,
+    tenant_image TEXT,
+    description TEXT
 );
 
 -- Buat tabel menus
@@ -11,7 +13,8 @@ CREATE TABLE menus (
     name VARCHAR(100) NOT NULL,
     price INTEGER NOT NULL,
     description TEXT,
-    category VARCHAR(50)
+    category VARCHAR(50),
+    image_url TEXT 
 );
 
 -- Buat tabel users untuk admin
@@ -23,12 +26,12 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Insert data tenant
-INSERT INTO tenants (name) VALUES
-('Emak'),
-('Ayam Geprek'),
-('Tempura'),
-('Sedep');
+-- Insert data tenant (dengan gambar dan deskripsi)
+INSERT INTO tenants (name, tenant_image, description) VALUES
+('Emak', '/uploads/tenants/tenant-1748252691405-996856856.png', 'Masakan rumahan khas Indonesia dengan cita rasa otentik.'),
+('Ayam Geprek', '/uploads/tenants/tenant-1748252711445-245634590.png', 'Ayam geprek super crispy dengan berbagai level kepedasan.'),
+('Tempura', '/uploads/tenants/tenant-1748252705887-884452407.png', 'Tempura dan makanan Jepang yang renyah dan segar.'),
+('Sedep', '/uploads/tenants/tenant-1748252699788-578840277.png', 'Aneka hidangan dengan rasa sedap yang menggugah selera.');
 
 -- Menu untuk Tenant 1: Emak
 INSERT INTO menus (tenant_id, name, price, category) VALUES
@@ -37,8 +40,8 @@ INSERT INTO menus (tenant_id, name, price, category) VALUES
 (1, 'Es Milk Tea', 5000, 'minuman'),
 (1, 'Es Jeruk', 3000, 'minuman'),
 (1, 'Es Teh Tarik', 5000, 'minuman'),
-(1, 'Sogem', 8000, 'makanan'),
-(1, 'Joshua', 5000, 'makanan');
+(1, 'Sogem', 8000, 'minuman'),
+(1, 'Joshua', 5000, 'minuman');
 
 -- Menu untuk Tenant 2: Ayam Geprek
 INSERT INTO menus (tenant_id, name, price, category) VALUES

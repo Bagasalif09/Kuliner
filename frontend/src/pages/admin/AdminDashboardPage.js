@@ -10,7 +10,7 @@ const AdminDashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const KATEGORI_OPTIONS = [
+  const kategori = [
     { value: 'makanan', label: 'Makanan' },
     { value: 'minuman', label: 'Minuman' },
     { value: 'paket', label: 'Paket' }
@@ -60,7 +60,7 @@ const AdminDashboardPage = () => {
       }
       
       // Mencari label kategori berdasarkan value
-      const categoryOption = KATEGORI_OPTIONS.find(opt => 
+      const categoryOption = kategori.find(opt => 
         opt.value === menu.category.toLowerCase()
       );
       

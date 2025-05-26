@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import MenuItem from '../components/MenuItem';
-import { getEmakMenu, getGeprekMenu, getTempuraMenu, getSedepMenu } from '../services/api';
+import { getEmakMenu, getGeprekMenu, getTempuraMenu, getSedepMenu, getTenantInfo } from '../services/api';
 import './TenantMenuPage.css';
+
+const tenantMap = {
+  emak: 1,
+  geprek: 2,
+  tempura: 3,
+  sedep: 4
+};
 
 const TenantMenuPage = () => {
   const { id } = useParams();
@@ -10,36 +17,32 @@ const TenantMenuPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [authError, setAuthError] = useState(false);
-
-  const tenantInfo = {
-    emak: {
-      name: 'Emak Food',
-      description: 'Masakan rumahan khas Indonesia dengan cita rasa otentik.',
-      banner: 'https://images.pexels.com/photos/2347311/pexels-photo-2347311.jpeg?auto=compress&cs=tinysrgb&w=300'
-    },
-    geprek: {
-      name: 'Geprek Crispy',
-      description: 'Ayam geprek super crispy dengan berbagai level kepedasan.',
-      banner: 'https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=300'
-    },
-    tempura: {
-      name: 'Tempura House',
-      description: 'Tempura dan makanan Jepang yang renyah dan segar.',
-      banner: 'https://images.pexels.com/photos/884596/pexels-photo-884596.jpeg?auto=compress&cs=tinysrgb&w=300'
-    },
-    sedep: {
-      name: 'Sedep Rasa',
-      description: 'Aneka hidangan dengan rasa sedap yang menggugah selera.',
-      banner: 'https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=300'
-    }
-  };
+  const [tenantDetails, setTenantDetails] = useState(null);
 
   useEffect(() => {
-    const fetchMenuItems = async () => {
+    const fetchData = async () => {
       setLoading(true);
       setAuthError(false);
       
       try {
+        if (tenantMap[id]) {
+          try {
+            const tenantData = await getTenantInfo(tenantMap[id]);
+            setTenantDetails(tenantData);
+          } catch (err) {
+            console.error('Error fetching tenant info:', err);
+            setError('Gagal memuat informasi tenant');
+          }
+        } else {
+          setError('Tenant tidak ditemukan');
+        }
+
+        if (!tenantMap[id]) {
+          setError('Tenant tidak ditemukan');
+          setLoading(false);
+          return;
+        }
+
         let data = [];
         
         switch(id) {
@@ -74,7 +77,7 @@ const TenantMenuPage = () => {
       }
     };
 
-    fetchMenuItems();
+    fetchData();
   }, [id]);
 
   const groupMenuByCategory = () => {
@@ -89,13 +92,22 @@ const TenantMenuPage = () => {
     };
   };
 
-  if (!tenantInfo[id]) {
-    return (
-      <div className="error-container">
-        <div className="error-message">Tenant tidak ditemukan</div>
-        <Link to="/" className="back-button">Kembali ke Beranda</Link>
-      </div>
-    );
+  if (!tenantDetails) {
+    if (!loading && !error) {
+      return (
+        <div className="error-container">
+          <div className="error-message">Tenant tidak ditemukan</div>
+          <Link to="/" className="back-button">Kembali ke Beranda</Link>
+        </div>
+      );
+    } else if (error) {
+      return (
+        <div className="error-container">
+          <div className="error-message">{error}</div>
+          <Link to="/" className="back-button">Kembali ke Beranda</Link>
+        </div>
+      );
+    }
   }
 
   const renderMenuContent = () => {
@@ -137,6 +149,8 @@ const TenantMenuPage = () => {
                   name={item.name}
                   price={item.price}
                   category={item.category}
+                  image_url={item.image_url}
+                  description={item.description}
                 />
               ))}
             </div>
@@ -153,6 +167,8 @@ const TenantMenuPage = () => {
                   name={item.name}
                   price={item.price}
                   category={item.category}
+                  image_url={item.image_url}
+                  description={item.description}
                 />
               ))}
             </div>
@@ -169,6 +185,8 @@ const TenantMenuPage = () => {
                   name={item.name}
                   price={item.price}
                   category={item.category}
+                  image_url={item.image_url}
+                  description={item.description}
                 />
               ))}
             </div>
@@ -178,18 +196,32 @@ const TenantMenuPage = () => {
     );
   };
 
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner">Memuat...</div>
+      </div>
+    );
+  }
+
+  const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || '';
+  const imageUrl = tenantDetails?.tenant_image;
+  const bannerStyle = imageUrl ? {
+    backgroundImage: `url(${imageUrl.startsWith('http') ? imageUrl : `${baseUrl}${imageUrl}`})`
+  } : {};
+
   return (
     <div className="tenant-menu-page">
       <div 
         className="tenant-banner"
-        style={{ backgroundImage: `url(${tenantInfo[id]?.banner})` }}
+        style={bannerStyle}
       >
         <div className="banner-overlay">
           <Link to="/" className="back-link">
             &larr; Kembali
           </Link>
-          <h1>{tenantInfo[id]?.name}</h1>
-          <p>{tenantInfo[id]?.description}</p>
+          <h1>{tenantDetails?.name}</h1>
+          <p>{tenantDetails?.description}</p>
         </div>
       </div>
 

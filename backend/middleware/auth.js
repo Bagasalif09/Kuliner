@@ -11,7 +11,7 @@ module.exports = function (req, res, next) {
   
   try {
     // Verifikasi token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'kuliner_secret_key');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (err) {

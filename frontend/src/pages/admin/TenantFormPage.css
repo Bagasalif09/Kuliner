@@ -1,15 +1,15 @@
-.menu-form-container {
+.tenant-form-container {
   max-width: 800px;
   margin: 0 auto;
 }
 
-.menu-form-container h2 {
+.tenant-form-container h2 {
   margin-top: 0;
   margin-bottom: 1.5rem;
   color: #1e293b;
 }
 
-.menu-form {
+.tenant-form {
   background-color: white;
   padding: 1.5rem;
   border-radius: 8px;
@@ -27,17 +27,12 @@
   color: #334155;
 }
 
-.form-group input,
-.form-group select,
 .form-group textarea {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #cbd5e1;
   border-radius: 4px;
   font-size: 1rem;
-}
-
-.form-group textarea {
   resize: vertical;
 }
 
@@ -45,6 +40,28 @@
   color: #ef4444;
   font-size: 0.875rem;
   margin-top: 0.5rem;
+}
+
+.file-input {
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+}
+
+.image-preview {
+  margin-top: 1rem;
+  max-width: 100%;
+  text-align: center;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .form-actions {
@@ -88,40 +105,9 @@
   background-color: #f1f5f9;
 }
 
-.loading-spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
+.image-hint {
+  font-size: 0.95rem;
   color: #64748b;
-}
-
-.error-message {
-  background-color: #fee2e2;
-  color: #b91c1c;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-}
-
-.file-input {
   margin-top: 0.5rem;
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-}
-
-.image-preview {
-  margin-top: 1rem;
-  max-width: 100%;
-  text-align: center;
-}
-
-.image-preview img {
-  max-width: 100%;
-  max-height: 200px;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0.5rem;
 } 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { getAllTenants, getMenuById, addMenu, updateMenu } from '../../services/api';
+import { getAllTenants, getMenuById, addMenu, updateMenu, uploadMenuImage } from '../../services/api';
 import AdminLayout from '../../components/admin/AdminLayout';
 import './MenuFormPage.css';
 
@@ -15,6 +15,9 @@ const MenuFormPage = () => {
   const [tenants, setTenants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  
   const kategori = [
     { value: 'makanan', label: 'Makanan' },
     { value: 'minuman', label: 'Minuman' },
@@ -31,6 +34,9 @@ const MenuFormPage = () => {
         if (isEditMode) {
           const menuData = await getMenuById(id);
           setMenu(menuData);
+          if (menuData.image_url) {
+            setImagePreview(process.env.REACT_APP_API_URL?.replace('/api', '') + menuData.image_url || menuData.image_url);
+          }
         }
       } catch (err) {
         setError(isEditMode 
@@ -51,6 +57,7 @@ const MenuFormPage = () => {
     price: menu?.price || '',
     description: menu?.description || '',
     category: menu?.category || '',
+    image_url: menu?.image_url || '',
   };
 
   const validationSchema = Yup.object({
@@ -67,12 +74,27 @@ const MenuFormPage = () => {
       .required('Kategori wajib dipilih'),
   });
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      let result;
+      
       if (isEditMode) {
-        await updateMenu(id, values);
+        result = await updateMenu(id, values);
       } else {
-        await addMenu(values);
+        result = await addMenu(values);
+      }
+
+      if (imageFile) {
+        const menuId = isEditMode ? id : result.id;
+        await uploadMenuImage(menuId, imageFile);
       }
       
       alert(isEditMode 
@@ -161,6 +183,23 @@ const MenuFormPage = () => {
                 <label htmlFor="description">Deskripsi</label>
                 <Field as="textarea" name="description" id="description" rows="4" />
                 <ErrorMessage name="description" component="div" className="error-text" />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="image">Gambar Menu</label>
+                <input
+                  type="file"
+                  id="image"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="file-input"
+                />
+                <div className="image-hint">Rekomendasi ukuran gambar: <b>800 x 400 px</b> (2:1), ukuran maksimal <b>5MB</b></div>
+                {imagePreview && (
+                  <div className="image-preview">
+                    <img src={imagePreview} alt="Preview" />
+                  </div>
+                )}
               </div>
               
               <div className="form-actions">

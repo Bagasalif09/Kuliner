@@ -5,7 +5,9 @@ import TenantMenuPage from './pages/TenantMenuPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminMenusPage from './pages/admin/AdminMenusPage';
+import AdminTenantsPage from './pages/admin/AdminTenantsPage';
 import MenuFormPage from './pages/admin/MenuFormPage';
+import TenantFormPage from './pages/admin/TenantFormPage';
 import ChangePasswordPage from './pages/admin/ChangePasswordPage';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
@@ -15,13 +17,13 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
-        <Router>
-          <Routes>
-            {/* Halaman utama pengguna umum */}
-            <Route path="/" element={<HomePage />} />
+      <Router>
+        <Routes>
+          {/* Halaman utama pengguna umum */}
+          <Route path="/" element={<HomePage />} />
 
-            {/* Halaman menu tenant untuk pengunjung */}
-            <Route path="/tenant/:id" element={<TenantMenuPage />} />
+          {/* Halaman menu tenant untuk pengunjung */}
+          <Route path="/tenant/:id" element={<TenantMenuPage />} />
 
             {/* Halaman admin */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
@@ -32,10 +34,12 @@ function App() {
               <Route path="/admin/menus" element={<AdminMenusPage />} />
               <Route path="/admin/menus/add" element={<MenuFormPage />} />
               <Route path="/admin/menus/edit/:id" element={<MenuFormPage />} />
+              <Route path="/admin/tenants" element={<AdminTenantsPage />} />
+              <Route path="/admin/tenants/edit/:id" element={<TenantFormPage />} />
               <Route path="/admin/change-password" element={<ChangePasswordPage />} />
             </Route>
-          </Routes>
-        </Router>
+        </Routes>
+      </Router>
       </AuthProvider>
     </div>
   );

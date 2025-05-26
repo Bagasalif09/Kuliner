@@ -25,11 +25,9 @@ export const loginAdmin = async (username, password) => {
   try {
     const response = await apiClient.post('/auth/login', { username, password });
     const { token } = response.data;
-    
-    // Simpan token di localStorage
+
     localStorage.setItem('token', token);
     
-    // Set token ke header
     setAuthToken(token);
     
     return response.data;
@@ -133,6 +131,16 @@ export const checkApiKeyValid = async () => {
   }
 };
 
+export const getAllTenantsPublic = async () => {
+  try {
+    const response = await apiClient.get('/public/tenants');
+    return response.data;
+  } catch (error) {
+    console.error('Error mengambil data tenant:', error);
+    return [];
+  }
+};
+
 export const getEmakMenu = async () => {
   try {
     const response = await apiClient.get('/emak');
@@ -196,5 +204,71 @@ export const getAllMenus = async () => {
       tempura: [],
       sedep: []
     };
+  }
+};
+
+// API untuk Upload Gambar
+export const uploadMenuImage = async (menuId, imageFile) => {
+  try {
+    const token = localStorage.getItem('token');
+    setAuthToken(token);
+    
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    
+    const response = await apiClient.post(`/images/menu/${menuId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    
+    return response.data;
+  } catch (error) {
+    console.error(`Error mengupload gambar menu:`, error);
+    throw error;
+  }
+};
+
+export const uploadTenantImage = async (tenantId, imageFile) => {
+  try {
+    const token = localStorage.getItem('token');
+    setAuthToken(token);
+    
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    
+    const response = await apiClient.post(`/images/tenant/${tenantId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    
+    return response.data;
+  } catch (error) {
+    console.error(`Error mengupload gambar tenant:`, error);
+    throw error;
+  }
+};
+
+export const updateTenantInfo = async (tenantId, data) => {
+  try {
+    const token = localStorage.getItem('token');
+    setAuthToken(token);
+    
+    const response = await apiClient.put(`/images/tenant/${tenantId}/info`, data);
+    return response.data;
+  } catch (error) {
+    console.error(`Error memperbarui informasi tenant:`, error);
+    throw error;
+  }
+};
+
+export const getTenantInfo = async (tenantId) => {
+  try {
+    const response = await apiClient.get(`/images/tenant/${tenantId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error mendapatkan informasi tenant:`, error);
+    throw error;
   }
 }; 

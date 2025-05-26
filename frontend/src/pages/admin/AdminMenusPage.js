@@ -12,7 +12,7 @@ const AdminMenusPage = () => {
   const [filterTenant, setFilterTenant] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const KATEGORI_OPTIONS = [
+  const kategori = [
     { value: 'makanan', label: 'Makanan' },
     { value: 'minuman', label: 'Minuman' },
     { value: 'paket', label: 'Paket' }
@@ -126,7 +126,7 @@ const AdminMenusPage = () => {
               onChange={(e) => setFilterCategory(e.target.value)}
             >
               <option value="">Semua Kategori</option>
-              {KATEGORI_OPTIONS.map(option => (
+              {kategori.map(option => (
                 <option key={option.value} value={option.value}>{option.label}</option>
               ))}
             </select>
@@ -155,7 +155,7 @@ const AdminMenusPage = () => {
                     <td>{menu.name}</td>
                     <td>{getTenantName(menu.tenant_id)}</td>
                     <td>{menu.category ? 
-                      KATEGORI_OPTIONS.find(opt => opt.value === menu.category.toLowerCase())?.label || 
+                      kategori.find(opt => opt.value === menu.category.toLowerCase())?.label || 
                       menu.category : '-'}
                     </td>
                     <td>Rp {menu.price.toLocaleString()}</td>
