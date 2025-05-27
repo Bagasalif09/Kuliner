@@ -28,10 +28,10 @@ CREATE TABLE users (
 
 -- Insert data tenant (dengan gambar dan deskripsi)
 INSERT INTO tenants (name, tenant_image, description) VALUES
-('Emak', '/uploads/tenants/tenant-1748252691405-996856856.png', 'Masakan rumahan khas Indonesia dengan cita rasa otentik.'),
-('Ayam Geprek', '/uploads/tenants/tenant-1748252711445-245634590.png', 'Ayam geprek super crispy dengan berbagai level kepedasan.'),
+('Minuman', '/uploads/tenants/tenant-1748252691405-996856856.png', 'Masakan rumahan khas Indonesia dengan cita rasa otentik.'),
+('Dapur Sedep', '/uploads/tenants/tenant-1748252711445-245634590.png', 'Ayam geprek super crispy dengan berbagai level kepedasan.'),
 ('Tempura', '/uploads/tenants/tenant-1748252705887-884452407.png', 'Tempura dan makanan Jepang yang renyah dan segar.'),
-('Sedep', '/uploads/tenants/tenant-1748252699788-578840277.png', 'Aneka hidangan dengan rasa sedap yang menggugah selera.');
+('Warmindo', '/uploads/tenants/tenant-1748252699788-578840277.png', 'Aneka hidangan dengan rasa sedap yang menggugah selera.');
 
 -- Menu untuk Tenant 1: Emak
 INSERT INTO menus (tenant_id, name, price, category) VALUES
