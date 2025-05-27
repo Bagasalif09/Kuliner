@@ -5,10 +5,10 @@ require('dotenv').config();
 
 console.log('API_KEY from env:', process.env.API_KEY);
 
-const emakRoutes = require('./routes/emak');
-const geprekRoutes = require('./routes/geprek');
+const minumanRoutes = require('./routes/minuman');
+const dapursedepRoutes = require('./routes/dapursedep');
 const tempuraRoutes = require('./routes/tempura');
-const sedepRoutes = require('./routes/sedep');
+const warmindoRoutes = require('./routes/warmindo');
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const imageRoutes = require('./routes/image');
@@ -23,10 +23,10 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // API Routes
-app.use('/api/emak', emakRoutes);
-app.use('/api/geprek', geprekRoutes);
+app.use('/api/minuman', minumanRoutes);
+app.use('/api/dapursedep', dapursedepRoutes);
 app.use('/api/tempura', tempuraRoutes);
-app.use('/api/sedep', sedepRoutes);
+app.use('/api/warmindo', warmindoRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/images', imageRoutes);
