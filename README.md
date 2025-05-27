@@ -32,5 +32,14 @@ npm install
 npm start
 ```
 
+## RUN ALL
+```
+npm install -g concurrently
+```
+
+```
+concurrently "cd backend && npm run dev" "cd frontend && npm start"
+```
+
 ## Dashboard Admin : /admin/login
 ## Akun Admin cek di sql
