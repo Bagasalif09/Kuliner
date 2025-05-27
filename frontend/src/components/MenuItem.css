@@ -72,4 +72,23 @@
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   text-transform: capitalize;
+}
+
+.add-to-cart-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ff6b35;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.add-to-cart-button:hover {
+  background-color: #e85a2a;
 } 

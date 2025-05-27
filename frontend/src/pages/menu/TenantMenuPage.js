@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import MenuItem from '../components/MenuItem';
-import { getEmakMenu, getGeprekMenu, getTempuraMenu, getSedepMenu, getTenantInfo } from '../services/api';
+import { FaShoppingCart } from 'react-icons/fa';
+import MenuItem from '../../components/MenuItem';
+import { getEmakMenu, getGeprekMenu, getTempuraMenu, getSedepMenu, getTenantInfo } from '../../services/api';
+import { useCart } from './CartContext';
 import './TenantMenuPage.css';
 
 const tenantMap = {
@@ -18,34 +20,45 @@ const TenantMenuPage = () => {
   const [error, setError] = useState(null);
   const [authError, setAuthError] = useState(false);
   const [tenantDetails, setTenantDetails] = useState(null);
+  const { totalItems } = useCart();
 
+  // Ambil data tenant
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchTenant = async () => {
       setLoading(true);
       setAuthError(false);
-      
+      setError(null);
+
+      if (!tenantMap[id]) {
+        setError('Tenant tidak ditemukan');
+        setLoading(false);
+        return;
+      }
+
       try {
-        if (tenantMap[id]) {
-          try {
-            const tenantData = await getTenantInfo(tenantMap[id]);
-            setTenantDetails(tenantData);
-          } catch (err) {
-            console.error('Error fetching tenant info:', err);
-            setError('Gagal memuat informasi tenant');
-          }
-        } else {
-          setError('Tenant tidak ditemukan');
-        }
+        const tenantData = await getTenantInfo(tenantMap[id]);
+        setTenantDetails(tenantData);
+      } catch (err) {
+        setError('Gagal memuat informasi tenant');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        if (!tenantMap[id]) {
-          setError('Tenant tidak ditemukan');
-          setLoading(false);
-          return;
-        }
+    fetchTenant();
+  }, [id]);
 
+  // Ambil data menu setelah tenantDetails tersedia
+  useEffect(() => {
+    const fetchMenu = async () => {
+      if (!tenantDetails) return;
+      setLoading(true);
+      setAuthError(false);
+      setError(null);
+
+      try {
         let data = [];
-        
-        switch(id) {
+        switch (id) {
           case 'emak':
             data = await getEmakMenu();
             break;
@@ -61,11 +74,15 @@ const TenantMenuPage = () => {
           default:
             setError('Tenant tidak ditemukan');
         }
-        
+
+        data = data.map(item => ({
+          ...item,
+          tenant_id: tenantMap[id],
+          tenant_name: tenantDetails.name
+        }));
+
         setMenuItems(data);
       } catch (error) {
-        console.error('Error fetching menu items:', error);
-        
         if (error.response && error.response.status === 403) {
           setAuthError(true);
           setError('Akses ditolak. API key tidak valid atau tidak tersedia.');
@@ -77,8 +94,10 @@ const TenantMenuPage = () => {
       }
     };
 
-    fetchData();
-  }, [id]);
+    if (tenantDetails) {
+      fetchMenu();
+    }
+  }, [id, tenantDetails]);
 
   const groupMenuByCategory = () => {
     const foodItems = menuItems.filter(item => item.category.toLowerCase() === 'makanan');
@@ -146,11 +165,14 @@ const TenantMenuPage = () => {
               {menuGroups.makanan.map((item) => (
                 <MenuItem
                   key={item.id}
+                  id={item.id}
                   name={item.name}
                   price={item.price}
                   category={item.category}
                   image_url={item.image_url}
                   description={item.description}
+                  tenant_id={item.tenant_id}
+                  tenant_name={tenantDetails.name}
                 />
               ))}
             </div>
@@ -164,11 +186,14 @@ const TenantMenuPage = () => {
               {menuGroups.minuman.map((item) => (
                 <MenuItem
                   key={item.id}
+                  id={item.id}
                   name={item.name}
                   price={item.price}
                   category={item.category}
                   image_url={item.image_url}
                   description={item.description}
+                  tenant_id={item.tenant_id}
+                  tenant_name={tenantDetails.name}
                 />
               ))}
             </div>
@@ -182,11 +207,14 @@ const TenantMenuPage = () => {
               {menuGroups.paket.map((item) => (
                 <MenuItem
                   key={item.id}
+                  id={item.id}
                   name={item.name}
                   price={item.price}
                   category={item.category}
                   image_url={item.image_url}
                   description={item.description}
+                  tenant_id={item.tenant_id}
+                  tenant_name={tenantDetails.name}
                 />
               ))}
             </div>
@@ -230,6 +258,11 @@ const TenantMenuPage = () => {
         
         {renderMenuContent()}
       </div>
+      
+      <Link to="/cart" className="cart-link">
+        <FaShoppingCart /> 
+        {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
+      </Link>
     </div>
   );
 };

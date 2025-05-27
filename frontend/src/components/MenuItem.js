@@ -1,10 +1,11 @@
 import React from 'react';
+import { FaShoppingCart } from 'react-icons/fa';
+import { useCart } from '../pages/menu/CartContext';
 import './MenuItem.css';
-import { useNavigate } from 'react-router-dom';
 
-const MenuItem = ({ name, price, category, image_url, description }) => {
-  const navigate = useNavigate();
-  const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '');
+const MenuItem = ({ id, name, price, category, image_url, description, tenant_id, tenant_name }) => {
+  const { addToCart } = useCart();
+  const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || '';
   
   const formatPrice = (price) => {
     return new Intl.NumberFormat('id-ID', {
@@ -14,14 +15,23 @@ const MenuItem = ({ name, price, category, image_url, description }) => {
     }).format(price);
   };
 
-  const handleClick = () => {
-    navigate(`/bayar/${encodeURIComponent(name)}`, {
-      state: { name, price, category },
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    
+    addToCart({
+      id,
+      name,
+      price,
+      category,
+      image_url,
+      description,
+      tenant_id,
+      tenant_name
     });
   };
 
   return (
-    <div className="menu-item" onClick={handleClick} style={{ cursor: 'pointer' }}>
+    <div className="menu-item">
       {image_url && (
         <div className="menu-item-image">
           <img 
@@ -38,9 +48,12 @@ const MenuItem = ({ name, price, category, image_url, description }) => {
           <span className="menu-item-price">{formatPrice(price)}</span>
           <span className="menu-item-category">{category}</span>
         </div>
+        <button className="add-to-cart-button" onClick={handleAddToCart}>
+          <FaShoppingCart /> Tambah
+        </button>
       </div>
     </div>
   );
 };
 
-export default MenuItem;
+export default MenuItem; 

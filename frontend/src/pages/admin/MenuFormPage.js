@@ -194,7 +194,7 @@ const MenuFormPage = () => {
                   onChange={handleImageChange}
                   className="file-input"
                 />
-                <div className="image-hint">Rekomendasi ukuran gambar: <b>800 x 400 px</b> (2:1), ukuran maksimal <b>5MB</b></div>
+                <div className="image-hint">Rekomendasi ukuran gambar: <b>400 x 320 px</b> (5:4), ukuran maksimal <b>5MB</b></div>
                 {imagePreview && (
                   <div className="image-preview">
                     <img src={imagePreview} alt="Preview" />

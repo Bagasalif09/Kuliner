@@ -1,5 +1,6 @@
 .tenant-card {
   display: flex;
+  flex-direction: column;
   background-color: white;
   border-radius: 12px;
   overflow: hidden;
@@ -14,8 +15,8 @@
 }
 
 .tenant-image {
-  width: 120px;
-  min-height: 120px;
+  width: 100%;
+  height: 200px;
   overflow: hidden;
 }
 
@@ -26,31 +27,35 @@
 }
 
 .tenant-info {
-  padding: 15px;
-  flex: 1;
+  padding: 20px;
+  text-align: center;
 }
 
 .tenant-info h3 {
   margin-top: 0;
   color: #333;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
 .tenant-info p {
   color: #666;
-  font-size: 0.9rem;
-  margin-bottom: 15px;
+  font-size: 1rem;
+  margin-bottom: 20px;
 }
 
 .menu-button {
   display: inline-block;
   background-color: #ff6b35;
   color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 30px;
+  border-radius: 6px;
   text-decoration: none;
   font-weight: 500;
   transition: background-color 0.2s;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
 }
 
 .menu-button:hover {
@@ -59,13 +64,22 @@
   color: white;
 }
 
+@media (max-width: 768px) {
+  .tenant-image {
+    height: 180px;
+  }
+}
+
 @media (max-width: 576px) {
-  .tenant-card {
-    flex-direction: column;
+  .tenant-image {
+    height: 160px;
   }
   
-  .tenant-image {
-    width: 100%;
-    height: 150px;
+  .tenant-info h3 {
+    font-size: 1.3rem;
+  }
+  
+  .tenant-info p {
+    font-size: 0.9rem;
   }
 } 
