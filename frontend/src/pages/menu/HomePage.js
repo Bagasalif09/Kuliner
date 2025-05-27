@@ -42,16 +42,16 @@ const HomePage = () => {
   const formatImageUrl = (imageUrl) => {
     if (!imageUrl) return '';
     
-    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '');
+    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') ;
     return imageUrl.startsWith('http') ? imageUrl : `${baseUrl}${imageUrl}`;
   };
 
   const getTenantSlug = (id, name) => {
     const slugMap = {
-      1: 'emak',
-      2: 'geprek',
-      3: 'tempura',
-      4: 'sedep'
+      1: 'Minuman',
+      2: 'DapurSedep',
+      3: 'Tempura',
+      4: 'Warmindo'
     };
     
     return slugMap[id] || name.toLowerCase().replace(/\s+/g, '-');

@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import MenuItem from '../../components/MenuItem';
-import { getEmakMenu, getGeprekMenu, getTempuraMenu, getSedepMenu, getTenantInfo } from '../../services/api';
+import { getMinumanMenu, getDapurSedepMenu, getTempuraMenu, getWarmindoMenu, getTenantInfo } from '../../services/api';
 import { useCart } from './CartContext';
 import './TenantMenuPage.css';
 
 const tenantMap = {
-  emak: 1,
-  geprek: 2,
-  tempura: 3,
-  sedep: 4
+  Minuman: 1,
+  DapurSedep: 2,
+  Tempura: 3,
+  Warmindo: 4
 };
 
 const TenantMenuPage = () => {
@@ -22,7 +22,6 @@ const TenantMenuPage = () => {
   const [tenantDetails, setTenantDetails] = useState(null);
   const { totalItems } = useCart();
 
-  // Ambil data tenant
   useEffect(() => {
     const fetchTenant = async () => {
       setLoading(true);
@@ -34,7 +33,7 @@ const TenantMenuPage = () => {
         setLoading(false);
         return;
       }
-
+      
       try {
         const tenantData = await getTenantInfo(tenantMap[id]);
         setTenantDetails(tenantData);
@@ -44,12 +43,10 @@ const TenantMenuPage = () => {
         setLoading(false);
       }
     };
-
     fetchTenant();
   }, [id]);
 
-  // Ambil data menu setelah tenantDetails tersedia
-  useEffect(() => {
+    useEffect(() => {
     const fetchMenu = async () => {
       if (!tenantDetails) return;
       setLoading(true);
@@ -58,18 +55,19 @@ const TenantMenuPage = () => {
 
       try {
         let data = [];
-        switch (id) {
-          case 'emak':
-            data = await getEmakMenu();
+        
+        switch(id) {
+          case 'Minuman':
+            data = await getMinumanMenu();
             break;
-          case 'geprek':
-            data = await getGeprekMenu();
+          case 'DapurSedep':
+            data = await getDapurSedepMenu();
             break;
-          case 'tempura':
+          case 'Tempura':
             data = await getTempuraMenu();
             break;
-          case 'sedep':
-            data = await getSedepMenu();
+          case 'Warmindo':
+            data = await getWarmindoMenu();
             break;
           default:
             setError('Tenant tidak ditemukan');
@@ -80,9 +78,10 @@ const TenantMenuPage = () => {
           tenant_id: tenantMap[id],
           tenant_name: tenantDetails.name
         }));
-
+        
         setMenuItems(data);
       } catch (error) {
+        
         if (error.response && error.response.status === 403) {
           setAuthError(true);
           setError('Akses ditolak. API key tidak valid atau tidak tersedia.');
@@ -94,7 +93,7 @@ const TenantMenuPage = () => {
       }
     };
 
-    if (tenantDetails) {
+   if (tenantDetails) {
       fetchMenu();
     }
   }, [id, tenantDetails]);
@@ -258,7 +257,7 @@ const TenantMenuPage = () => {
         
         {renderMenuContent()}
       </div>
-      
+
       <Link to="/cart" className="cart-link">
         <FaShoppingCart /> 
         {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
