@@ -1,65 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import TenantCard from '../components/TenantCard';
-import { checkApiKeyValid, getAllTenantsPublic } from '../services/api';
+import React from 'react';
 import './HomePage.css';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
-  const [apiKeyValid, setApiKeyValid] = useState(true);
-  const [tenants, setTenants] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
+  const tenants = [
+    {
+      id: 'sedep',
+      name: 'Dapur Sedep',
+      imageUrl: '/images/tenant-sedep.png'
+    },
+    {
+      id: 'minuman',
+      name: 'Minuman',
+      imageUrl: '/images/tenant-minuman.png'
+    },
+    {
+      id: 'tempura',
+      name: 'Tempura',
+      imageUrl: '/images/tenant-tempura.png'
+    },
+    {
+      id: 'warmindo',
+      name: 'Warmindo',
+      imageUrl: '/images/tenant-warmindo.png'
+    }
+  ];
 
-      const isValid = await checkApiKeyValid();
-      setApiKeyValid(isValid);
-
-      const tenantsData = await getAllTenantsPublic();
-      
-      if (tenantsData && tenantsData.length > 0) {
-        const formattedTenants = tenantsData.map(tenant => ({
-          id: getTenantSlug(tenant.id, tenant.name),
-          name: tenant.name,
-          description: tenant.description || '',
-          imageUrl: formatImageUrl(tenant.tenant_image)
-        }));
-        setTenants(formattedTenants);
-      } else {
-        setTenants([]);
-      }
-      
-      setLoading(false);
-    };
-
-    fetchData();
-  }, []);
-
-  const formatImageUrl = (imageUrl) => {
-    if (!imageUrl) return '';
-    
-    const baseUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || '';
-    return imageUrl.startsWith('http') ? imageUrl : `${baseUrl}${imageUrl}`;
+  const handleTenantClick = (id) => {
+    navigate(`/tenant/${id}`);
   };
-
-  const getTenantSlug = (id, name) => {
-    const slugMap = {
-      1: 'emak',
-      2: 'geprek',
-      3: 'tempura',
-      4: 'sedep'
-    };
-    
-    return slugMap[id] || name.toLowerCase().replace(/\s+/g, '-');
-  };
-
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner">Memuat...</div>
-      </div>
-    );
-  }
 
   return (
     <div className="home-page">
@@ -67,29 +38,28 @@ const HomePage = () => {
         <h1>Menu Digital</h1>
         <p>Silahkan pilih tenant untuk melihat menu</p>
       </div>
-      
-      {!apiKeyValid && (
-        <div className="api-key-warning">
-          <p>
-            <strong>Perhatian:</strong> API key tidak valid atau tidak tersedia.
-            Menu mungkin tidak dapat ditampilkan.
-          </p>
-        </div>
-      )}
-      
+
       <div className="tenants-container">
         {tenants.map((tenant) => (
-          <TenantCard 
+          <div
+            className="tenant-card"
             key={tenant.id}
-            id={tenant.id}
-            name={tenant.name}
-            description={tenant.description}
-            imageUrl={tenant.imageUrl}
-          />
+            onClick={() => handleTenantClick(tenant.id)}
+          >
+            <img
+              src={tenant.imageUrl || '/placeholder-image.png'}
+              alt={tenant.name}
+            />
+            <div>{tenant.name}</div>
+          </div>
         ))}
       </div>
+
+      <button className="lihat-pesanan-button">
+        LIHAT PESANAN
+      </button>
     </div>
   );
 };
 
-export default HomePage; 
+export default HomePage;
