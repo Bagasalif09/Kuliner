@@ -121,7 +121,7 @@ export const deleteMenu = async (id) => {
 // API Menu Reguler
 export const checkApiKeyValid = async () => {
   try {
-    await apiClient.get('/emak');
+    await apiClient.get('/minuman');
     return true;
   } catch (error) {
     if (error.response && error.response.status === 403) {
@@ -141,9 +141,9 @@ export const getAllTenantsPublic = async () => {
   }
 };
 
-export const getEmakMenu = async () => {
+export const getMinumanMenu = async () => {
   try {
-    const response = await apiClient.get('/emak');
+    const response = await apiClient.get('/minuman');
     return response.data;
   } catch (error) {
     console.error('Error mengambil menu Emak:', error);
@@ -151,9 +151,9 @@ export const getEmakMenu = async () => {
   }
 };
 
-export const getGeprekMenu = async () => {
+export const getDapurSedepMenu = async () => {
   try {
-    const response = await apiClient.get('/geprek');
+    const response = await apiClient.get('/dapursedep');
     return response.data;
   } catch (error) {
     console.error('Error mengambil menu Geprek:', error);
@@ -171,9 +171,9 @@ export const getTempuraMenu = async () => {
   }
 };
 
-export const getSedepMenu = async () => {
+export const getWarmindoMenu = async () => {
   try {
-    const response = await apiClient.get('/sedep');
+    const response = await apiClient.get('/warmindo');
     return response.data;
   } catch (error) {
     console.error('Error mengambil menu Sedep:', error);
@@ -183,26 +183,26 @@ export const getSedepMenu = async () => {
 
 export const getAllMenus = async () => {
   try {
-    const [emakData, geprekData, tempuraData, sedepData] = await Promise.all([
-      getEmakMenu(),
-      getGeprekMenu(),
+    const [minumanData, dapursedepData, tempuraData, warmindoData] = await Promise.all([
+      getMinumanMenu(),
+      getDapurSedepMenu(),
       getTempuraMenu(),
-      getSedepMenu()
+      getWarmindoMenu()
     ]);
     
     return {
-      emak: emakData,
-      geprek: geprekData,
-      tempura: tempuraData,
-      sedep: sedepData
+      Minuman: minumanData,
+      DapurSedep: dapursedepData,
+      Tempura: tempuraData,
+      Warmindo: warmindoData
     };
   } catch (error) {
     console.error('Error mengambil semua menu:', error);
     return {
-      emak: [],
-      geprek: [],
-      tempura: [],
-      sedep: []
+      Minuman: [],
+      DapurSedep: [],
+      Tempura: [],
+      Warmindo: []
     };
   }
 };
