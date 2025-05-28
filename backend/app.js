@@ -5,6 +5,7 @@ require('dotenv').config();
 
 console.log('API_KEY from env:', process.env.API_KEY);
 
+// Existing route imports
 const minumanRoutes = require('./routes/minuman');
 const dapursedepRoutes = require('./routes/dapursedep');
 const tempuraRoutes = require('./routes/tempura');
@@ -13,6 +14,10 @@ const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const imageRoutes = require('./routes/image');
 const publicRoutes = require('./routes/public');
+
+// NEW route imports (tambahan Anda)
+const paymentRoutes = require('./routes/payment');
+const orderRoutes = require('./routes/order');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -31,6 +36,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/images', imageRoutes);
 app.use('/api/public', publicRoutes);
+
+// Tambahan baru:
+app.use('/api/payments', paymentRoutes);
+app.use('/api/order', orderRoutes);
 
 app.get('/api', (req, res) => {
   res.send('Kuliner API is running...');

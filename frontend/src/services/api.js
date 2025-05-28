@@ -272,3 +272,30 @@ export const getTenantInfo = async (tenantId) => {
     throw error;
   }
 }; 
+
+export const getAllOrders = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    setAuthToken(token); // ini akan menambahkan token ke apiClient secara otomatis
+
+    const response = await apiClient.get('/admin/orders');
+    return response.data;
+  } catch (error) {
+    console.error('Error mengambil data pesanan:', error);
+    throw error;
+  }
+};
+
+
+export const updateOrderStatus = async (orderId, status) => {
+  try {
+    const token = localStorage.getItem('token');
+    setAuthToken(token);
+
+    const response = await apiClient.put(`/admin/orders/${orderId}/status`, { status });
+    return response.data;
+  } catch (error) {
+    console.error(`Error memperbarui status pesanan ID ${orderId}:`, error);
+    throw error;
+  }
+};

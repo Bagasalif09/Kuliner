@@ -1,3 +1,4 @@
+// src/pages/admin/AdminDashboardPage.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
@@ -24,7 +25,6 @@ const AdminDashboardPage = () => {
           getAllTenants(),
           getAdminMenus()
         ]);
-        
         setTenants(tenantsData);
         setMenus(menusData);
       } catch (err) {
@@ -34,22 +34,17 @@ const AdminDashboardPage = () => {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
-  // Menghitung jumlah menu per tenant
   const getMenuCountByTenant = (tenantId) => {
     return menus.filter(menu => menu.tenant_id === tenantId).length;
   };
 
-  // Menghitung total menu
   const getTotalMenuCount = () => menus.length;
 
-  // Menghitung total menu per kategori
   const getMenuCountByCategory = () => {
     const categoryCounts = {};
-    
     menus.forEach(menu => {
       if (!menu.category) {
         if (!categoryCounts['Tidak ada kategori']) {
@@ -58,20 +53,15 @@ const AdminDashboardPage = () => {
         categoryCounts['Tidak ada kategori'] += 1;
         return;
       }
-      
-      // Mencari label kategori berdasarkan value
       const categoryOption = kategori.find(opt => 
         opt.value === menu.category.toLowerCase()
       );
-      
       const categoryLabel = categoryOption ? categoryOption.label : menu.category;
-      
       if (!categoryCounts[categoryLabel]) {
         categoryCounts[categoryLabel] = 0;
       }
       categoryCounts[categoryLabel] += 1;
     });
-    
     return categoryCounts;
   };
 
@@ -97,20 +87,20 @@ const AdminDashboardPage = () => {
     <AdminLayout>
       <div className="admin-dashboard">
         <h2>Dashboard</h2>
-        
+
         <div className="dashboard-cards">
           <div className="dashboard-card">
             <h3>Total Menu</h3>
             <p className="stat-number">{getTotalMenuCount()}</p>
             <Link to="/admin/menus" className="card-link">Lihat Semua Menu</Link>
           </div>
-          
+
           <div className="dashboard-card">
             <h3>Total Tenant</h3>
             <p className="stat-number">{tenants.length}</p>
           </div>
         </div>
-        
+
         <div className="dashboard-panels">
           <div className="dashboard-panel">
             <h3>Menu per Tenant</h3>
@@ -123,7 +113,7 @@ const AdminDashboardPage = () => {
               ))}
             </div>
           </div>
-          
+
           <div className="dashboard-panel">
             <h3>Menu per Kategori</h3>
             <div className="category-stats">
@@ -135,10 +125,18 @@ const AdminDashboardPage = () => {
               ))}
             </div>
           </div>
+
+          <div className="dashboard-panel">
+            <h3>Pesanan</h3>
+            <div className="orders-panel">
+              <p className="stat-number">12</p>
+              <Link to="/admin/orders" className="card-link">Lihat Semua Pesanan</Link>
+            </div>
+          </div>
         </div>
       </div>
     </AdminLayout>
   );
 };
 
-export default AdminDashboardPage; 
+export default AdminDashboardPage;

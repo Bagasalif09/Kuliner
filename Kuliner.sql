@@ -26,6 +26,22 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  total_amount DECIMAL(10, 2) NOT NULL,
+  status VARCHAR(20) DEFAULT 'pending',
+  order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE order_items (
+  id SERIAL PRIMARY KEY,
+  order_id INT NOT NULL,
+  item_id INT NOT NULL,
+  quantity INT NOT NULL,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+);
+
 -- Insert data tenant (dengan gambar dan deskripsi)
 INSERT INTO tenants (name, tenant_image, description) VALUES
 ('Minuman', '/uploads/tenants/tenant-1748252691405-996856856.png', 'Masakan rumahan khas Indonesia dengan cita rasa otentik.'),
@@ -70,6 +86,17 @@ INSERT INTO menus (tenant_id, name, price, category) VALUES
 (4, 'Mie Jumbo + Telur', 10000, 'paket'),
 (4, 'Mie Jumbo + Es Teh', 10000, 'paket'),
 (4, 'Mie Telur + Es Teh', 10000, 'paket');
+
+INSERT INTO orders (user_id, total_amount, status, order_date) VALUES
+(1, 15000.00, 'pending', CURRENT_TIMESTAMP),
+(1, 25000.00, 'completed', CURRENT_TIMESTAMP - INTERVAL '1 day'),
+(1, 10000.00, 'processing', CURRENT_TIMESTAMP - INTERVAL '2 days');
+
+INSERT INTO order_items (order_id, item_id, quantity) VALUES
+(1, 1, 2),   -- 2x Es Teh Kin
+(2, 8, 1),   -- 1x Ayam Geprek
+(2, 9, 1),   -- 1x Ayam Richeese
+(3, 22, 1);  -- 1x Mie Telur + Es Teh
 
 -- Insert akun admin default
 -- Password: admin123 (nanti akan di-hash dalam implementasi)

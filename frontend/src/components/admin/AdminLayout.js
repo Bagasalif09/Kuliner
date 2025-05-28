@@ -36,6 +36,9 @@ const AdminLayout = ({ children }) => {
                 <Link to="/admin/tenants">Kelola Tenant</Link>
               </li>
               <li>
+                <Link to="/admin/orders">Pesanan</Link> {/* Tambahkan menu Pesanan */}
+              </li>
+              <li>
                 <Link to="/admin/change-password">Ubah Password</Link>
               </li>
               <li>
@@ -53,4 +56,4 @@ const AdminLayout = ({ children }) => {
   );
 };
 
-export default AdminLayout; 
+export default AdminLayout;
