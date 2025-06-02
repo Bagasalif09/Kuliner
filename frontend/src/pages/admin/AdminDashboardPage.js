@@ -1,4 +1,3 @@
-// src/pages/admin/AdminDashboardPage.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
@@ -8,6 +7,7 @@ import './AdminDashboardPage.css';
 const AdminDashboardPage = () => {
   const [tenants, setTenants] = useState([]);
   const [menus, setMenus] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -21,12 +21,15 @@ const AdminDashboardPage = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const [tenantsData, menusData] = await Promise.all([
+        const [tenantsData, menusData, ordersResponse] = await Promise.all([
           getAllTenants(),
-          getAdminMenus()
+          getAdminMenus(),
+          fetch('http://localhost:3000/api/order').then(res => res.json())
         ]);
+
         setTenants(tenantsData);
         setMenus(menusData);
+        setOrders(ordersResponse);
       } catch (err) {
         setError('Error mengambil data');
         console.error(err);
@@ -129,7 +132,7 @@ const AdminDashboardPage = () => {
           <div className="dashboard-panel">
             <h3>Pesanan</h3>
             <div className="orders-panel">
-              <p className="stat-number">12</p>
+              <p className="stat-number">{orders.length}</p>
               <Link to="/admin/orders" className="card-link">Lihat Semua Pesanan</Link>
             </div>
           </div>
