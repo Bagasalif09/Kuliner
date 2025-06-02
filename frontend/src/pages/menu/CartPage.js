@@ -19,9 +19,37 @@ const CartPage = () => {
     groupedItems[item.tenant_id].items.push(item);
   });
 
-  const handleCheckout = () => {
-    const orderName = encodeURIComponent(`Pesanan (${totalItems} item)`);
-    navigate(`/payment/${orderName}`);
+  const handleCheckout = async () => {
+    try {
+      const userId = localStorage.getItem('user_id') || 1; // Default 1 jika belum ada sistem login
+
+      const orderPayload = {
+        user_id: parseInt(userId),
+        items: cartItems.map(item => ({
+          item_id: item.id,
+          quantity: item.quantity
+        }))
+      };
+
+      const response = await fetch('http://localhost:3000/api/order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderPayload)
+      });
+
+      if (!response.ok) {
+        throw new Error('Gagal membuat pesanan');
+      }
+
+      const data = await response.json();
+      localStorage.removeItem('cart'); // Clear cart
+      navigate('/payment/success'); // Redirect to success page
+    } catch (error) {
+      console.error(error);
+      alert('Terjadi kesalahan saat memproses pesanan.');
+    }
   };
 
   if (cartItems.length === 0) {
@@ -55,7 +83,6 @@ const CartPage = () => {
         {Object.keys(groupedItems).map(tenantId => (
           <div key={tenantId} className="tenant-items">
             <h3 className="tenant-name">{groupedItems[tenantId].tenant_name}</h3>
-            
             <div className="cart-items">
               {groupedItems[tenantId].items.map(item => (
                 <div key={`${item.id}-${item.tenant_id}`} className="cart-item">
@@ -122,4 +149,4 @@ const CartPage = () => {
   );
 };
 
-export default CartPage; 
+export default CartPage;

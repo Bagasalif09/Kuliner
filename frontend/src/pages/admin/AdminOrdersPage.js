@@ -1,28 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
-import './AdminOrdersPage.css'; // Pastikan file ini berisi style di bawah ini
+import './AdminOrdersPage.css';
 
 const AdminOrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/api/order');
-        if (!response.ok) {
-          throw new Error('Gagal fetch data');
-        }
-        const data = await response.json();
-        setOrders(data);
-      } catch (err) {
-        console.error(err);
-        setError('Gagal memuat pesanan');
-      }
-    };
-
     fetchOrders();
   }, []);
+
+  const fetchOrders = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/order');
+      if (!response.ok) {
+        throw new Error('Gagal fetch data');
+      }
+      const data = await response.json();
+      setOrders(data);
+    } catch (err) {
+      console.error(err);
+      setError('Gagal memuat pesanan');
+    }
+  };
+
+  const handleStatusChange = async (orderId, newStatus) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/order/${orderId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Gagal mengubah status');
+      }
+
+      fetchOrders(); // refresh data
+    } catch (err) {
+      console.error(err);
+      alert('Terjadi kesalahan saat mengubah status');
+    }
+  };
 
   return (
     <AdminLayout>
@@ -41,14 +62,15 @@ const AdminOrdersPage = () => {
                 <th>Total</th>
                 <th>Status</th>
                 <th>Items</th>
+                <th>Ubah Status</th>
               </tr>
             </thead>
             <tbody>
               {orders.map((order) => (
                 <tr key={order.order_id}>
                   <td>{order.order_id}</td>
-                  <td>{order.customer_name || '-'}</td>
-                  <td>Rp{Number(order.total_amount).toLocaleString()}</td>
+                  <td>{order.username || '-'}</td>
+                  <td>Rp{Number(order.total_amount).toLocaleString('id-ID')}</td>
                   <td>{order.status}</td>
                   <td>
                     <ul>
@@ -58,6 +80,26 @@ const AdminOrdersPage = () => {
                         </li>
                       ))}
                     </ul>
+                  </td>
+                  <td>
+                    {['pending', 'processing', 'completed', 'cancelled'].map((status) => (
+                      <button
+                        key={status}
+                        onClick={() => handleStatusChange(order.order_id, status)}
+                        disabled={order.status === status}
+                        style={{
+                          margin: '2px',
+                          padding: '5px 10px',
+                          backgroundColor: order.status === status ? '#ccc' : '#007bff',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: order.status === status ? 'not-allowed' : 'pointer'
+                        }}
+                      >
+                        {status}
+                      </button>
+                    ))}
                   </td>
                 </tr>
               ))}

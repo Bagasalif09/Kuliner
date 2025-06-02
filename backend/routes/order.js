@@ -79,4 +79,24 @@ router.post('/', async (req, res) => {
   }
 });
 
+// PATCH /api/order/:id - Update status pesanan
+router.patch('/:id', async (req, res) => {
+  const orderId = req.params.id;
+  const { status } = req.body;
+
+  const validStatuses = ['pending', 'processing', 'completed', 'cancelled'];
+  if (!validStatuses.includes(status)) {
+    return res.status(400).json({ error: 'Status tidak valid' });
+  }
+
+  try {
+    await db.query('UPDATE orders SET status = $1 WHERE id = $2', [status, orderId]);
+    res.json({ message: 'Status pesanan diperbarui' });
+  } catch (err) {
+    console.error('Error updating order status:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 module.exports = router;
