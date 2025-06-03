@@ -2,29 +2,87 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
+  font-family: 'Poppins', 'Arial', sans-serif;
+  background-color: #f8f0e5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Menambahkan aturan untuk semua tabel di admin layout */
+.admin-layout table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.admin-layout th {
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+
+.admin-layout td {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.admin-layout strong {
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.admin-layout b {
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.admin-layout .no-data {
+  font-style: italic;
+  opacity: 0.8;
 }
 
 .admin-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0ea5e9;
-  color: white;
-  padding: 1rem 2rem;
+  background-color: #ff6b6b;
+  color: #000000;
+  padding: 1.2rem 2rem;
+  border-bottom: 4px solid #000000;
+  box-shadow: 5px 5px 0px #000000;
+  position: relative;
+  z-index: 10;
+}
+
+.admin-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  text-transform: uppercase;
 }
 
 .admin-user-info {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
+  font-weight: bold;
 }
 
 .logout-button {
-  background-color: #ef4444;
-  border: none;
-  color: white;
-  padding: 0.5rem 1rem;
+  background-color: #4ecdc4;
+  border: 3px solid #000000;
+  color: #000000;
+  padding: 0.6rem 1.2rem;
   cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 4px 4px 0px #000000;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.logout-button:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
 }
 
 .admin-container {
@@ -33,27 +91,47 @@
 }
 
 .admin-sidebar {
-  width: 220px;
-  background-color: #f3f4f6;
-  padding: 1rem;
+  width: 250px;
+  background-color: #ffd166;
+  padding: 1.5rem;
+  border-right: 4px solid #000000;
+  box-shadow: 5px 0px 0px #000000;
+  position: relative;
+  z-index: 5;
 }
 
 .admin-sidebar ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .admin-sidebar li {
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
 .admin-sidebar a {
+  display: block;
   text-decoration: none;
-  color: #374151;
+  color: #000000;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.8rem 1rem;
+  background-color: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.admin-sidebar a:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+  background-color: #f8f0e5;
 }
 
 .admin-content {
   flex: 1;
   padding: 2rem;
-  background-color: #ffffff;
+  background-color: #f8f0e5;
+  overflow-y: auto;
 }

@@ -15,6 +15,7 @@ const TenantFormPage = () => {
   const [error, setError] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [fileName, setFileName] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +26,10 @@ const TenantFormPage = () => {
           setTenant(tenantData);
           if (tenantData.tenant_image) {
             setImagePreview(process.env.REACT_APP_API_URL?.replace('/api', '') + tenantData.tenant_image);
+            // Extract filename from path
+            const imagePath = tenantData.tenant_image;
+            const fileName = imagePath.split('/').pop();
+            setFileName(fileName || 'Gambar saat ini');
           }
         }
       } catch (err) {
@@ -53,6 +58,7 @@ const TenantFormPage = () => {
     if (file) {
       setImageFile(file);
       setImagePreview(URL.createObjectURL(file));
+      setFileName(file.name);
     }
   };
 
@@ -64,10 +70,9 @@ const TenantFormPage = () => {
         await uploadTenantImage(id, imageFile);
       }
       
-      alert('Informasi tenant berhasil diperbarui!');
       navigate('/admin/tenants');
     } catch (err) {
-      alert('Gagal memperbarui tenant');
+      setError('Gagal memperbarui tenant');
       console.error(err);
     } finally {
       setSubmitting(false);
@@ -77,7 +82,7 @@ const TenantFormPage = () => {
   if (loading) {
     return (
       <AdminLayout>
-        <div className="loading-spinner">Loading...</div>
+        <div className="loading-spinner">Memuat data...</div>
       </AdminLayout>
     );
   }
@@ -111,14 +116,24 @@ const TenantFormPage = () => {
               
               <div className="form-group">
                 <label htmlFor="image">Gambar Tenant</label>
-                <input
-                  type="file"
-                  id="image"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="file-input"
-                />
-                <div className="image-hint">Rekomendasi ukuran gambar: <b>800 x 400 px</b> (2:1), ukuran maksimal <b>5MB</b></div>
+                <div className="image-hint">
+                  Rekomendasi ukuran gambar: <b>800 x 400 px</b> (2:1), ukuran maksimal <b>5MB</b>
+                </div>
+                
+                <div className="file-input-container">
+                  <label htmlFor="image" className="file-input-label">
+                    Pilih Gambar
+                  </label>
+                  <input
+                    type="file"
+                    id="image"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="file-input"
+                  />
+                  {fileName && <div className="file-name">File: {fileName}</div>}
+                </div>
+                
                 {imagePreview && (
                   <div className="image-preview">
                     <img src={imagePreview} alt="Preview" />

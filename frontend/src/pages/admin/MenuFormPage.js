@@ -17,6 +17,7 @@ const MenuFormPage = () => {
   const [error, setError] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [fileName, setFileName] = useState('');
   
   const kategori = [
     { value: 'makanan', label: 'Makanan' },
@@ -36,6 +37,10 @@ const MenuFormPage = () => {
           setMenu(menuData);
           if (menuData.image_url) {
             setImagePreview(process.env.REACT_APP_API_URL?.replace('/api', '') + menuData.image_url || menuData.image_url);
+            // Extract filename from path
+            const imagePath = menuData.image_url;
+            const fileName = imagePath.split('/').pop();
+            setFileName(fileName || 'Gambar saat ini');
           }
         }
       } catch (err) {
@@ -79,6 +84,7 @@ const MenuFormPage = () => {
     if (file) {
       setImageFile(file);
       setImagePreview(URL.createObjectURL(file));
+      setFileName(file.name);
     }
   };
 
@@ -97,13 +103,9 @@ const MenuFormPage = () => {
         await uploadMenuImage(menuId, imageFile);
       }
       
-      alert(isEditMode 
-        ? 'Menu berhasil diperbarui!' 
-        : 'Menu berhasil ditambahkan!');
-      
       navigate('/admin/menus');
     } catch (err) {
-      alert(isEditMode 
+      setError(isEditMode 
         ? 'Gagal memperbarui menu' 
         : 'Gagal menambahkan menu');
       console.error(err);
@@ -115,7 +117,7 @@ const MenuFormPage = () => {
   if (loading) {
     return (
       <AdminLayout>
-        <div className="loading-spinner">Loading...</div>
+        <div className="loading-spinner">Memuat data...</div>
       </AdminLayout>
     );
   }
@@ -154,16 +156,18 @@ const MenuFormPage = () => {
                 <ErrorMessage name="tenant_id" component="div" className="error-text" />
               </div>
               
-              <div className="form-group">
-                <label htmlFor="name">Nama Menu</label>
-                <Field type="text" name="name" id="name" />
-                <ErrorMessage name="name" component="div" className="error-text" />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="price">Harga (Rp)</label>
-                <Field type="number" name="price" id="price" />
-                <ErrorMessage name="price" component="div" className="error-text" />
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="name">Nama Menu</label>
+                  <Field type="text" name="name" id="name" />
+                  <ErrorMessage name="name" component="div" className="error-text" />
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="price">Harga (Rp)</label>
+                  <Field type="number" name="price" id="price" />
+                  <ErrorMessage name="price" component="div" className="error-text" />
+                </div>
               </div>
               
               <div className="form-group">
@@ -187,14 +191,24 @@ const MenuFormPage = () => {
               
               <div className="form-group">
                 <label htmlFor="image">Gambar Menu</label>
-                <input
-                  type="file"
-                  id="image"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="file-input"
-                />
-                <div className="image-hint">Rekomendasi ukuran gambar: <b>400 x 320 px</b> (5:4), ukuran maksimal <b>5MB</b></div>
+                <div className="image-hint">
+                  Rekomendasi ukuran gambar: <b>400 x 320 px</b> (5:4), ukuran maksimal <b>5MB</b>
+                </div>
+                
+                <div className="file-input-container">
+                  <label htmlFor="image" className="file-input-label">
+                    Pilih Gambar
+                  </label>
+                  <input
+                    type="file"
+                    id="image"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="file-input"
+                  />
+                  {fileName && <div className="file-name">File: {fileName}</div>}
+                </div>
+                
                 {imagePreview && (
                   <div className="image-preview">
                     <img src={imagePreview} alt="Preview" />

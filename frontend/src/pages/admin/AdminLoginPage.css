@@ -3,71 +3,96 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f1f5f9;
+  background-color: #f8f0e5;
 }
 
 .admin-login-card {
   width: 100%;
-  max-width: 400px;
-  padding: 2rem;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 450px;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border: 4px solid #000000;
+  box-shadow: 12px 12px 0px #000000;
+  position: relative;
+}
+
+.admin-login-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 100%;
+  height: 100%;
+  background-color: #ff6b6b;
+  z-index: -1;
+  border: 4px solid #000000;
 }
 
 .admin-login-card h2 {
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   text-align: center;
-  color: #1e293b;
+  color: #000000;
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .admin-form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .admin-form-group label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #334155;
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+  color: #000000;
+  font-size: 1.2rem;
+  text-transform: uppercase;
 }
 
 .admin-form-group input {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-  font-size: 1rem;
+  padding: 1rem;
+  border: 3px solid #000000;
+  font-size: 1.1rem;
+  background-color: #ffffff;
+  box-shadow: 4px 4px 0px #000000;
 }
 
 .admin-login-button {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #0ea5e9;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
+  padding: 1rem;
+  background-color: #4ecdc4;
+  color: #000000;
+  border: 3px solid #000000;
+  font-size: 1.2rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s;
+  text-transform: uppercase;
+  box-shadow: 6px 6px 0px #000000;
+  transition: transform 0.1s, box-shadow 0.1s;
 }
 
 .admin-login-button:hover {
-  background-color: #0284c7;
+  background-color: #3dbeb6;
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0px #000000;
 }
 
 .admin-login-button:disabled {
-  background-color: #94a3b8;
+  background-color: #cccccc;
   cursor: not-allowed;
+  color: #666666;
 }
 
 .admin-error-message {
-  padding: 0.75rem;
-  margin-bottom: 1.5rem;
-  background-color: #fee2e2;
-  border: 1px solid #fecaca;
-  border-radius: 4px;
-  color: #b91c1c;
-  font-size: 0.875rem;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  background-color: #ff6b6b;
+  border: 3px solid #000000;
+  color: #000000;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 4px 4px 0px #000000;
 } 

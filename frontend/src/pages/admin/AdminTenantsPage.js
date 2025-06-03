@@ -66,7 +66,7 @@ const AdminTenantsPage = () => {
               {tenants.map((tenant) => (
                 <tr key={tenant.id}>
                   <td>{tenant.id}</td>
-                  <td>{tenant.name}</td>
+                  <td><strong>{tenant.name}</strong></td>
                   <td className="description-cell">
                     {tenant.description || <span className="no-data">Tidak ada deskripsi</span>}
                   </td>

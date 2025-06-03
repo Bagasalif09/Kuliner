@@ -4,57 +4,67 @@
   background-color: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #f0f0f0;
 }
 
 .tenant-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
 .tenant-image {
   width: 100%;
-  height: 200px;
+  height: 180px;
   overflow: hidden;
+  position: relative;
 }
 
 .tenant-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.tenant-card:hover .tenant-image img {
+  transform: scale(1.03);
 }
 
 .tenant-info {
   padding: 20px;
-  text-align: center;
+  text-align: left;
 }
 
 .tenant-info h3 {
   margin-top: 0;
-  color: #333;
-  font-size: 1.5rem;
+  color: #222;
+  font-size: 1.4rem;
   margin-bottom: 10px;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 .tenant-info p {
   color: #666;
-  font-size: 1rem;
+  font-size: 0.95rem;
   margin-bottom: 20px;
+  line-height: 1.5;
 }
 
 .menu-button {
   display: inline-block;
   background-color: #ff6b35;
   color: white;
-  padding: 10px 30px;
-  border-radius: 6px;
+  padding: 10px 20px;
+  border-radius: 8px;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   transition: background-color 0.2s;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   letter-spacing: 0.5px;
 }
 
@@ -65,21 +75,46 @@
 }
 
 @media (max-width: 768px) {
-  .tenant-image {
-    height: 180px;
+  .tenant-card {
+    margin-bottom: 16px;
   }
-}
-
-@media (max-width: 576px) {
+  
   .tenant-image {
     height: 160px;
+  }
+  
+  .tenant-info {
+    padding: 16px;
   }
   
   .tenant-info h3 {
     font-size: 1.3rem;
   }
+}
+
+@media (max-width: 576px) {
+  .tenant-image {
+    height: 140px;
+  }
+  
+  .tenant-info {
+    padding: 15px;
+  }
+  
+  .tenant-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
   
   .tenant-info p {
     font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+  
+  .menu-button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    width: 100%;
+    text-align: center;
   }
 } 

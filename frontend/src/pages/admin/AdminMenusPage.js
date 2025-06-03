@@ -152,21 +152,23 @@ const AdminMenusPage = () => {
               <tbody>
                 {filteredMenus.map(menu => (
                   <tr key={menu.id}>
-                    <td>{menu.name}</td>
+                    <td><strong>{menu.name}</strong></td>
                     <td>{getTenantName(menu.tenant_id)}</td>
                     <td>{menu.category ? 
                       kategori.find(opt => opt.value === menu.category.toLowerCase())?.label || 
                       menu.category : '-'}
                     </td>
-                    <td>Rp {menu.price.toLocaleString()}</td>
+                    <td><b>Rp {menu.price.toLocaleString()}</b></td>
                     <td className="menu-actions">
-                      <Link to={`/admin/menus/edit/${menu.id}`} className="edit-button">Edit</Link>
-                      <button 
-                        onClick={() => handleDelete(menu.id)} 
-                        className="delete-button"
-                      >
-                        Hapus
-                      </button>
+                      <div className="action-buttons">
+                        <Link to={`/admin/menus/edit/${menu.id}`} className="edit-button">Edit</Link>
+                        <button 
+                          onClick={() => handleDelete(menu.id)} 
+                          className="delete-button"
+                        >
+                          Hapus
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

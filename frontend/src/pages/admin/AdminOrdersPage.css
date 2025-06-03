@@ -6,53 +6,133 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
 }
 
 .page-header h2 {
   margin: 0;
-  color: #1e293b;
+  color: #000000;
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-bottom: 3px solid #000000;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.filter-container label {
+  font-weight: 700;
+  color: #000000;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+.status-filter {
+  padding: 0.8rem 1rem;
+  border: 3px solid #000000;
+  background-color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 4px 4px 0px #000000;
+  cursor: pointer;
 }
 
 .orders-list {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  background-color: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 8px 8px 0px #000000;
+  overflow-x: auto;
 }
 
 .orders-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .orders-table th,
 .orders-table td {
-  padding: 1rem;
+  padding: 1.2rem;
   text-align: left;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 2px solid #000000;
   vertical-align: top;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+/* Mengatur lebar kolom */
+.orders-table th:nth-child(1),
+.orders-table td:nth-child(1) {
+  width: 8%;
+}
+
+.orders-table th:nth-child(2),
+.orders-table td:nth-child(2) {
+  width: 15%;
+}
+
+.orders-table th:nth-child(3),
+.orders-table td:nth-child(3) {
+  width: 12%;
+}
+
+.orders-table th:nth-child(4),
+.orders-table td:nth-child(4) {
+  width: 15%;
+}
+
+.orders-table th:nth-child(5),
+.orders-table td:nth-child(5) {
+  width: 25%;
+}
+
+.orders-table th:nth-child(6),
+.orders-table td:nth-child(6) {
+  width: 25%;
 }
 
 .orders-table th {
-  background-color: #f8fafc;
-  font-weight: 600;
-  color: #475569;
+  background-color: #ffd166;
+  font-weight: 700;
+  color: #000000;
+  text-transform: uppercase;
+  font-size: 1.1rem;
 }
 
 .orders-table tr:last-child td {
   border-bottom: none;
 }
 
+.orders-table tr:hover {
+  background-color: #f8f0e5;
+}
+
 .orders-table ul {
   margin: 0;
-  padding-left: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.orders-table li {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .no-orders {
-  color: #94a3b8;
+  color: #000000;
   font-style: italic;
-  font-size: 0.875rem;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 2rem;
+  text-align: center;
+  background-color: #ffd166;
+  border: 3px solid #000000;
+  box-shadow: 8px 8px 0px #000000;
 }
 
 .loading-spinner {
@@ -60,13 +140,111 @@
   justify-content: center;
   align-items: center;
   height: 200px;
-  color: #64748b;
+  color: #000000;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .error-message {
-  background-color: #fee2e2;
-  color: #b91c1c;
-  padding: 1rem;
-  border-radius: 8px;
+  background-color: #ff6b6b;
+  color: #000000;
+  padding: 1.5rem;
+  border: 3px solid #000000;
+  box-shadow: 8px 8px 0px #000000;
   margin-bottom: 1.5rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.order-status {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  border: 2px solid #000000;
+  text-transform: uppercase;
+  font-size: 1rem;
+  min-width: 120px;
+  text-align: center;
+}
+
+.order-status-pending {
+  background-color: #ffd166;
+}
+
+.order-status-processing {
+  background-color: #ffb347;
+}
+
+.order-status-completed {
+  background-color: #4ecdc4;
+}
+
+.order-status-cancelled {
+  background-color: #ff6b6b;
+}
+
+.action-cell {
+  min-width: 250px;
+  width: 25%;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.status-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.status-button {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid #000000;
+  background-color: #ffffff;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0px #000000;
+  transition: transform 0.1s, box-shadow 0.1s;
+  min-width: 100px;
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.status-button:hover:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.status-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.status-button-active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000000;
+}
+
+.status-button-pending {
+  background-color: #ffd166;
+}
+
+.status-button-processing {
+  background-color: #ffb347;
+}
+
+.status-button-completed {
+  background-color: #4ecdc4;
+}
+
+.status-button-cancelled {
+  background-color: #ff6b6b;
 }
