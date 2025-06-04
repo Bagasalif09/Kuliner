@@ -16,6 +16,8 @@ import MenuFormPage from './pages/admin/MenuFormPage';
 import TenantFormPage from './pages/admin/TenantFormPage';
 import ChangePasswordPage from './pages/admin/ChangePasswordPage';
 import AdminOrdersPage from './pages/admin/AdminOrdersPage';
+import AdminSaldoPage from './pages/admin/AdminSaldoPage';
+import SaldoFormPage from './pages/admin/SaldoFormPage';
 
 import ProtectedRoute from './components/admin/ProtectedRoute';
 
@@ -47,6 +49,8 @@ function App() {
                 <Route path="/admin/tenants/edit/:id" element={<TenantFormPage />} />
                 <Route path="/admin/change-password" element={<ChangePasswordPage />} />
                 <Route path="/admin/orders" element={<AdminOrdersPage />} />
+                <Route path="/admin/saldo" element={<AdminSaldoPage />} />
+                <Route path="/admin/saldo/add" element={<SaldoFormPage />} />
               </Route>
             </Routes>
           </Router>

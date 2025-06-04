@@ -18,6 +18,7 @@ const publicRoutes = require('./routes/public');
 // NEW route imports (tambahan Anda)
 const paymentRoutes = require('./routes/payment');
 const orderRoutes = require('./routes/order');
+const financeRoutes = require('./routes/pembukuan');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -40,6 +41,8 @@ app.use('/api/public', publicRoutes);
 // Tambahan baru:
 app.use('/api/payments', paymentRoutes);
 app.use('/api/order', orderRoutes);
+app.use('/api/finance', financeRoutes);
+
 
 app.get('/api', (req, res) => {
   res.send('Kuliner API is running...');

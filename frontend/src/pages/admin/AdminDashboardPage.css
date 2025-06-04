@@ -24,16 +24,11 @@
   box-shadow: 8px 8px 0px #000000;
   text-align: center;
   transition: transform 0.2s, box-shadow 0.2s;
-  position: relative;
 }
 
-.dashboard-card:nth-child(1) {
-  background-color: #4ecdc4;
-}
-
-.dashboard-card:nth-child(2) {
-  background-color: #ffd166;
-}
+.dashboard-card:nth-child(1) { background-color: #4ecdc4; }
+.dashboard-card:nth-child(2) { background-color: #ffd166; }
+.dashboard-card:nth-child(3) { background-color: #ff6b6b; }
 
 .dashboard-card:hover {
   transform: translate(4px, 4px);
@@ -72,32 +67,22 @@
 .card-link:hover {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0px #000000;
-  text-decoration: none;
 }
 
+/* NEW: Grid untuk panel data tenant dan kategori */
 .dashboard-panels {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
+  margin-bottom: 2rem;
 }
 
+/* Panel umum */
 .dashboard-panel {
   background-color: #ffffff;
   padding: 1.8rem;
   border: 3px solid #000000;
   box-shadow: 8px 8px 0px #000000;
-}
-
-.dashboard-panel:nth-child(1) {
-  background-color: #ff6b6b;
-}
-
-.dashboard-panel:nth-child(2) {
-  background-color: #4ecdc4;
-}
-
-.dashboard-panel:nth-child(3) {
-  background-color: #ffd166;
 }
 
 .dashboard-panel h3 {
@@ -141,6 +126,81 @@
   border: 2px solid #000000;
 }
 
+/* Order panel di luar grid, agar full-width */
+.order-panel {
+  background-color: #ffffff;
+  padding: 1.8rem;
+  border: 3px solid #000000;
+  box-shadow: 8px 8px 0px #000000;
+  margin-bottom: 2rem;
+}
+
+.order-panel h3 {
+  margin-top: 0;
+  color: #000000;
+  font-size: 1.5rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #000000;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.order-table-container {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.order-table th,
+.order-table td {
+  border: 2px solid #000000;
+  padding: 0.75rem;
+  text-align: left;
+  vertical-align: top;
+  color: #000000;
+  word-wrap: break-word;
+}
+
+.order-table th {
+  background-color: #ffd166;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.order-table td ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  list-style-type: disc;
+}
+
+.order-table th:nth-child(1),
+.order-table td:nth-child(1) { width: 20%; }
+.order-table th:nth-child(2),
+.order-table td:nth-child(2) {
+  width: 35%;
+}
+
+.order-table th:nth-child(3),
+.order-table td:nth-child(3) {
+  width: 20%;
+}
+.order-table th:nth-child(4),
+.order-table td:nth-child(4) { width: 25%; }
+
+.no-entries {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000000;
+}
+
+/* Spinner + error */
 .loading-spinner {
   display: flex;
   justify-content: center;
@@ -160,17 +220,4 @@
   margin-bottom: 1.5rem;
   font-weight: bold;
   font-size: 1.1rem;
-} 
-
-.orders-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.orders-panel .stat-number {
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: #000000;
-  margin-bottom: 1.5rem;
 }

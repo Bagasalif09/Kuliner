@@ -42,6 +42,14 @@ CREATE TABLE order_items (
   FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
 );
 
+CREATE TABLE pembukuan (
+  id SERIAL PRIMARY KEY,
+  type VARCHAR(20) CHECK (type IN ('pemasukan', 'pengeluaran')),
+  amount NUMERIC(10, 2) NOT NULL,
+  description TEXT,
+  entry_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Insert data tenant (dengan gambar dan deskripsi)
 INSERT INTO tenants (name, tenant_image, description) VALUES
 ('Minuman', '/uploads/tenants/tenant-1748252691405-996856856.png', 'Masakan rumahan khas Indonesia dengan cita rasa otentik.'),

@@ -8,8 +8,10 @@ const AdminDashboardPage = () => {
   const [tenants, setTenants] = useState([]);
   const [menus, setMenus] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [financeSummary, setFinanceSummary] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [financeError, setFinanceError] = useState(null);
 
   const kategori = [
     { value: 'makanan', label: 'Makanan' },
@@ -21,17 +23,20 @@ const AdminDashboardPage = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const [tenantsData, menusData, ordersResponse] = await Promise.all([
+        const [tenantsData, menusData, ordersResponse, financeResponse] = await Promise.all([
           getAllTenants(),
           getAdminMenus(),
-          fetch('http://localhost:3000/api/order').then(res => res.json())
+          fetch('http://localhost:3000/api/order').then(res => res.json()),
+          fetch('http://localhost:3000/api/finance').then(res => res.json())
         ]);
 
         setTenants(tenantsData);
         setMenus(menusData);
         setOrders(ordersResponse);
+        setFinanceSummary(financeResponse);
       } catch (err) {
         setError('Error mengambil data');
+        setFinanceError('Error mengambil data keuangan');
         console.error(err);
       } finally {
         setLoading(false);
@@ -68,6 +73,14 @@ const AdminDashboardPage = () => {
     return categoryCounts;
   };
 
+  const formatRupiah = (number) => {
+    return 'Rp' + Number(number).toLocaleString('id-ID', { minimumFractionDigits: 0 });
+  };
+
+  const totalIncome = financeSummary ? Number(financeSummary.total_pemasukan) : 0;
+  const totalExpense = financeSummary ? Number(financeSummary.total_pengeluaran) : 0;
+  const saldo = financeSummary ? Number(financeSummary.saldo) : 0;
+
   if (loading) {
     return (
       <AdminLayout>
@@ -76,10 +89,10 @@ const AdminDashboardPage = () => {
     );
   }
 
-  if (error) {
+  if (error || financeError) {
     return (
       <AdminLayout>
-        <div className="error-message">{error}</div>
+        <div className="error-message">{error || financeError}</div>
       </AdminLayout>
     );
   }
@@ -90,7 +103,22 @@ const AdminDashboardPage = () => {
     <AdminLayout>
       <div className="admin-dashboard">
         <h2>Dashboard</h2>
+        <div className="dashboard-cards finance-summary">
+          <div className="dashboard-card">
+            <h3>Saldo</h3>
+            <p className="stat-number">{formatRupiah(saldo)}</p>
+          </div>
 
+          <div className="dashboard-card">
+            <h3>Total Pemasukan</h3>
+            <p className="stat-number">{formatRupiah(totalIncome)}</p>
+          </div>
+
+          <div className="dashboard-card">
+            <h3>Total Pengeluaran</h3>
+            <p className="stat-number">{formatRupiah(totalExpense)}</p>
+          </div>
+        </div>
         <div className="dashboard-cards">
           <div className="dashboard-card">
             <h3>Total Menu</h3>
@@ -102,7 +130,15 @@ const AdminDashboardPage = () => {
             <h3>Total Tenant</h3>
             <p className="stat-number">{tenants.length}</p>
           </div>
+
+          <div className="dashboard-card">
+            <h3>Pesanan</h3>
+            <p className="stat-number">{orders.length}</p>
+            <Link to="/admin/orders" className="card-link">Lihat Semua Pesanan</Link>
+          </div>
         </div>
+
+        
 
         <div className="dashboard-panels">
           <div className="dashboard-panel">
@@ -128,13 +164,47 @@ const AdminDashboardPage = () => {
               ))}
             </div>
           </div>
+        </div>
 
-          <div className="dashboard-panel">
-            <h3>Pesanan</h3>
-            <div className="orders-panel">
-              <p className="stat-number">{orders.length}</p>
-              <Link to="/admin/orders" className="card-link">Lihat Semua Pesanan</Link>
-            </div>
+        <div className="order-panel full-width">
+          <h3>Pesanan</h3>
+          <div className="order-table-container">
+            {orders.length === 0 ? (
+              <p className="no-entries">Belum ada pesanan.</p>
+            ) : (
+              <table className="order-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders.map((order) => (
+                    <tr key={order.order_id}>
+                      <td>{order.order_id}</td>
+                      <td>
+                        <ul>
+                          {order.items.map((item, idx) => (
+                            <li key={idx}>{item.menu_name}</li>
+                          ))}
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          {order.items.map((item, idx) => (
+                            <li key={idx}>{item.quantity}</li>
+                          ))}
+                        </ul>
+                      </td>
+                      <td>{formatRupiah(order.total_amount)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       </div>

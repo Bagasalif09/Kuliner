@@ -39,6 +39,9 @@ const AdminLayout = ({ children }) => {
                 <Link to="/admin/orders">Pesanan</Link> {/* Tambahkan menu Pesanan */}
               </li>
               <li>
+                <Link to="/admin/saldo">Saldo</Link> {/* Tambahkan menu Pesanan */}
+              </li>
+              <li>
                 <Link to="/admin/change-password">Ubah Password</Link>
               </li>
               <li>
