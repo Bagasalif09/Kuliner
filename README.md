@@ -1,4 +1,4 @@
-# MENU DIGITAL Add commentMore actions
+# MENU DIGITAL
 
 ## Import Query pada Kuliner.sql dengan PostgreSQL (pgAdmin)
 ## SELALU IMPORT QUERY SETIAP ADA UPDATE DI Kuliner.sql 
