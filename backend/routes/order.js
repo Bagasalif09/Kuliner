@@ -90,13 +90,33 @@ router.patch('/:id', async (req, res) => {
   }
 
   try {
+    // Update status pesanan
     await db.query('UPDATE orders SET status = $1 WHERE id = $2', [status, orderId]);
+
+    // Jika status berubah menjadi completed, masukkan ke pembukuan
+    if (status === 'completed') {
+      const orderResult = await db.query('SELECT total_amount FROM orders WHERE id = $1', [orderId]);
+      const totalAmount = orderResult.rows[0]?.total_amount || 0;
+
+      // Cek apakah sudah pernah dimasukkan ke pembukuan sebelumnya
+      const checkEntry = await db.query(
+        `SELECT id FROM pembukuan WHERE description = $1`,
+        [`Pemasukan dari order ID ${orderId}`]
+      );
+
+      if (checkEntry.rows.length === 0) {
+        await db.query(
+          `INSERT INTO pembukuan(type, amount, description) VALUES ('pemasukan', $1, $2)`,
+          [totalAmount, `Pemasukan dari order ID ${orderId}`]
+        );
+      }
+    }
+
     res.json({ message: 'Status pesanan diperbarui' });
   } catch (err) {
     console.error('Error updating order status:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
 
 module.exports = router;
