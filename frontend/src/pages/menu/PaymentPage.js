@@ -48,7 +48,7 @@ const PaymentPage = () => {
         {selectedMethod && (
           <div className="payment-info">
             <h3>{selectedMethod.name}</h3>
-            <img src={`/images/${selectedMethod.id}-qr.png`} alt={`QR ${selectedMethod.name}`} />
+            <img src={`/images/${selectedMethod.id}.jpeg`} alt={`QR ${selectedMethod.name}`} />
             <p>Silakan scan QR atau buka aplikasi {selectedMethod.name} untuk menyelesaikan pembayaran.</p>
           </div>
         )}
