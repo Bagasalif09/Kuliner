@@ -99,9 +99,9 @@ const TenantMenuPage = () => {
   }, [id, tenantDetails]);
 
   const groupMenuByCategory = () => {
-    const foodItems = menuItems.filter(item => item.category.toLowerCase() === 'makanan');
-    const drinkItems = menuItems.filter(item => item.category.toLowerCase() === 'minuman');
-    const paketitems = menuItems.filter(item => item.category.toLowerCase() === 'paket');
+    const foodItems = menuItems.filter(item => (item.category || '').toLowerCase() === 'makanan');
+    const drinkItems = menuItems.filter(item => (item.category || '').toLowerCase() === 'minuman');
+    const paketitems = menuItems.filter(item => (item.category || '').toLowerCase() === 'paket');
     
     return {
       makanan: foodItems,
